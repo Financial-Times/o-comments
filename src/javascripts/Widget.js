@@ -336,6 +336,7 @@ function Widget () {
 		const showSettingsDialog = function () {
 			oCommentApi.api.getAuth(function (err, currentAuthData) {
 				if (!err && currentAuthData) {
+					console.log('showSettingsDialog', currentAuthData);
 					userDialogs.showSettingsDialog(currentAuthData, function (err, newAuthData) {
 						if (err) {
 							return;
@@ -352,6 +353,7 @@ function Widget () {
 		const showChangePseudonymDialog = function () {
 			oCommentApi.api.getAuth(function (err, currentAuthData) {
 				if (!err && currentAuthData) {
+					console.log('showChangePseudonymDialog', currentAuthData);
 					userDialogs.showChangePseudonymDialog(currentAuthData.displayName, function (err, newAuthData) {
 						if (err) {
 							return;

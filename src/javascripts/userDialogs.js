@@ -256,6 +256,8 @@ exports.showEmailAlertDialog = function () {
 exports.showSettingsDialog = function (currentUserDetails, callback) {
 	callback = callback || function () {};
 
+	console.log('userDialogs.showSettingsDialog', currentUserDetails);
+
 	oCommentUi.userDialogs.showSettingsDialog(currentUserDetails, {
 		submit: function (formData, responseCallback) {
 			if (formData) {
