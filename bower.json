@@ -5,7 +5,7 @@
     "main.scss"
   ],
   "dependencies": {
-    "o-comment-api": "^2.3.0",
+    "o-comment-api": "bjfletcher/o-comment-api#^2.3.1",
     "o-comment-ui": "bjfletcher/o-comment-ui#^3.0.0",
     "o-comment-utilities": "^2.2.1",
     "o-typography": "^1.16.2",
