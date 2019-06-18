@@ -3,6 +3,7 @@
 const globalEvents = require('./src/javascripts/globalEvents');
 const config = require('./src/javascripts/config.js');
 const oCommentApi = require('o-comment-api');
+const oCommentCount = require('o-comment-count');
 const defaultConfig = require('./config.js');
 const oCommentUtilities = require('o-comment-utilities');
 const Widget = require('./src/javascripts/Widget.js');
@@ -46,6 +47,7 @@ module.exports.init = function (el) {
 };
 module.exports.utilities = oCommentUtilities;
 module.exports.dataService = oCommentApi;
+module.exports.oCommentCount = oCommentCount;
 module.exports.utils = require('./src/javascripts/utils.js');
 module.exports.i18n = require('./src/javascripts/i18n.js');
 module.exports.userDialogs = require('./src/javascripts/userDialogs.js');
