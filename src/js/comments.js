@@ -34,6 +34,7 @@ class Comments {
 					{
 						id: 'comments',
 						rootURL: 'https://ft.staging.coral.coralproject.net',
+						storyID: this.options.articleId,
 						autoRender: true
 					}
 				);
