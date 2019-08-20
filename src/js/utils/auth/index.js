@@ -3,7 +3,7 @@ const getJsonWebToken = () => fetch('https://comments-api.ft.com/user/auth/', {
 }).then(response => {
 	// user is signed in but has no display name
 	if (response.status === 205) {
-		return { token: undefined, userIsSignedIn: true };
+		return { token: undefined, userIsSignedIn: true, displayName: false };
 	}
 
 	// user is signed in and has a pseudonym

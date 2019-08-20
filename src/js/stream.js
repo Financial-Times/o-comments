@@ -1,5 +1,6 @@
 import {validEvents, coralMap, errorMap} from './utils/events';
 import {getJsonWebToken} from './utils/auth';
+import displayNameOverlay from './utils/display-name';
 
 class Stream {
 	/**
@@ -55,6 +56,10 @@ class Stream {
 				 * the script element is injected into the document.
 				 */
 				document.dispatchEvent(new Event('oCommentsReady'));
+
+				if(jwtResponse.displayName === false) {
+					displayNameOverlay();
+				}
 			})
 			.catch(error => {
 				console.error(`Unable to authenticate user: ${error}`);
