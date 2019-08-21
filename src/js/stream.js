@@ -53,7 +53,7 @@ class Stream {
 				this.streamEl.appendChild(scriptElement);
 				/**
 				 * In order to test the asynchronous function, send an event when getJsonWebToken resolves
-				 * the script element is injected into the document.
+				 * and the script element is injected into the document.
 				 */
 				document.dispatchEvent(new Event('oCommentsReady'));
 

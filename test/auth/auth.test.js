@@ -95,6 +95,11 @@ describe("Auth", () => {
 				return getJsonWebToken()
 					.then((result) => proclaim.isTrue(result.userIsSignedIn));
 			});
+
+			it("resolves with displayName false", () => {
+				return getJsonWebToken()
+					.then((result) => proclaim.isFalse(result.displayName));
+			});
 		});
 
 		describe("when the comments api responds with 404", () => {

@@ -2,8 +2,8 @@ import Overlay from 'o-overlay';
 
 const displayNameOverlay = () => {
 	const overlayContent = `
-		<form>
-			<input type="text"/>
+		<form class="display-name-form">
+			<input type="text" id="display-name"/>
 			<button type="submit">Submit</button>
 		</form>`;
 
@@ -15,6 +15,20 @@ const displayNameOverlay = () => {
 	});
 
 	overlay.open();
+
+	document.addEventListener('oOverlay.ready', () => {
+		getDisplayName();
+	});
+};
+
+const getDisplayName = () => {
+	const submitForm = document.querySelector('.display-name-form');
+
+	submitForm.addEventListener('submit', (event) => {
+		event.preventDefault();
+		const displayName = document.getElementById('display-name').value;
+		return displayName;
+	});
 };
 
 export default displayNameOverlay;
