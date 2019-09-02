@@ -1,20 +1,23 @@
-const getJsonWebToken = () => fetch('https://comments-api.ft.com/user/auth/', {
-	credentials: 'include'
-}).then(response => {
-	// user is signed in but has no display name
-	if (response.status === 205) {
-		return { token: undefined, userIsSignedIn: true, displayName: false };
-	}
+const getJsonWebToken = (displayName) => {
+	const url = displayName ? `https://comments-api.ft.com/user/auth?displayName=${displayName}` : 'https://comments-api.ft.com/user/auth/';
 
-	// user is signed in and has a display name
-	if (response.ok) {
-		return response.json();
-	} else {
-		// user is not signed in or session token is invalid
-		// or error in comments api
-		return { token: undefined, userIsSignedIn: false };
-	}
-});
+	return fetch(url, { credentials: 'include' })
+		.then(response => {
+			// User is signed in but has no display name
+			if (response.status === 205) {
+				return { token: undefined, userIsSignedIn: true, displayName: false };
+			}
+
+			// User is signed in and has a display name
+			if (response.ok) {
+				return response.json();
+			} else {
+				// User is not signed in, session token is invalid or comments api error
+				return { token: undefined, userIsSignedIn: false };
+			}
+		});
+};
+
 
 export {
 	getJsonWebToken

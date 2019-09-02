@@ -10,6 +10,25 @@ describe("Auth", () => {
 			proclaim.isFunction(getJsonWebToken);
 		});
 
+		describe("when a display name is passed in", () => {
+			before(() => {
+				fetchMock.mock('https://comments-api.ft.com/user/auth?displayName=commenter', {});
+				fetchMock.mock('https://comments-api.ft.com/user/auth/', {});
+			});
+
+			after(() => {
+				fetchMock.reset();
+			});
+
+			it("fetches token using the display name", () => {
+				const fakeDisplayName = 'commenter';
+				getJsonWebToken(fakeDisplayName);
+
+				proclaim.isTrue(fetchMock.called('https://comments-api.ft.com/user/auth?displayName=commenter'));
+				proclaim.isFalse(fetchMock.called('https://comments-api.ft.com/user/auth/'));
+			});
+		});
+
 		describe("when comments api returns a valid response", () => {
 			before(() => {
 				fetchMock.mock('https://comments-api.ft.com/user/auth/', {
