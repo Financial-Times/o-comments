@@ -44,11 +44,8 @@ const saveDisplayName = (event) => {
 	}
 };
 
-	submitForm.addEventListener('submit', (event) => {
-		event.preventDefault();
-		const displayName = document.getElementById('display-name').value;
-		return displayName;
-	});
+const isDisplayNameValid = (displayName) => {
+	return displayName === 'foo' ? false : true;
 };
 
 export default displayNameOverlay;
