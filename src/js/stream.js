@@ -31,12 +31,11 @@ class Stream {
 			.then((jwtResponse) => {
 				const scriptElement = document.createElement('script');
 				scriptElement.src = 'https://ft.staging.coral.coralproject.net/assets/js/embed.js';
-				scriptElement.onload = () => Coral.createStreamEmbed(
-					{
+				scriptElement.onload = () => {
+					this.embed = Coral.createStreamEmbed({
 						id: 'o-comments-stream',
 						rootURL: 'https://ft.staging.coral.coralproject.net',
 						autoRender: true,
-						accessToken: jwtResponse.token,
 						events: (events) => {
 							events.onAny((name, data) => {
 								const message = new CustomEvent('talkEvent', {
@@ -48,23 +47,43 @@ class Stream {
 								window.parent.dispatchEvent(message);
 							});
 						}
-					}
-				);
+					});
+					document.dispatchEvent(new Event('oComments.streamEmbedReady'));
+				};
 				this.streamEl.appendChild(scriptElement);
-				/**
-				 * In order to test the asynchronous function, send an event when getJsonWebToken resolves
-				 * and the script element is injected into the document.
-				 */
+
 				document.dispatchEvent(new Event('oCommentsReady'));
 
 				if(jwtResponse.displayName === false) {
-					displayNameOverlay();
+					this.renderDisplayNamePrompt();
 				}
 			})
 			.catch(error => {
 				console.error(`Unable to authenticate user: ${error}`);
 				document.dispatchEvent(new Event('oCommentsFailed'));
 			});
+	}
+
+	/**
+	 * Login to Coral Talk.
+	 *
+	 * @param {String} event - The commenter's display name
+	 */
+	login (displayName) {
+		getJsonWebToken(displayName)
+			.then(jwtResponse => {
+				this.embed.login(jwtResponse.token);
+				document.dispatchEvent(new Event('oComments.userLoggedIn'));
+			});
+	}
+
+	renderDisplayNamePrompt () {
+		const _this = this;
+		displayNameOverlay();
+
+		document.addEventListener('oComments.displayNameValid', (event) => {
+			_this.login(event.detail.displayName);
+		});
 	}
 
 	/**

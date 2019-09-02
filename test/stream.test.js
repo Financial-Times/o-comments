@@ -10,36 +10,36 @@ describe("Stream", () => {
 		proclaim.equal(typeof Stream, 'function');
 	});
 
-	describe("when an authentication token is passed in", () => {
-		const sandbox = sinon.sandbox.create();
-		let comments;
-		let mockStreamEl;
-		let rootEl;
-		let scriptEl;
-		let oCommentsReadyListener;
+	describe(".renderComments", () => {
+		describe("when an authentication token is passed in", () => {
+			const sandbox = sinon.createSandbox();
+			let comments;
+			let mockStreamEl;
+			let rootEl;
+			let scriptEl;
+			let oCommentsReadyListener;
 
-		beforeEach((done) => {
-			sandbox.stub(auth, 'getJsonWebToken').resolves('fake-json-web-token');
-			oCommentsReadyListener = () => {
-				rootEl = comments.streamEl;
-				scriptEl = rootEl.querySelector('script');
-				done();
-			};
+			beforeEach((done) => {
+				sandbox.stub(auth, 'getJsonWebToken').resolves('fake-json-web-token');
+				oCommentsReadyListener = () => {
+					rootEl = comments.streamEl;
+					scriptEl = rootEl.querySelector('script');
+					done();
+				};
 
-			document.addEventListener('oCommentsReady', oCommentsReadyListener);
+				document.addEventListener('oCommentsReady', oCommentsReadyListener);
 
-			fixtures.streamMarkup();
-			mockStreamEl = document.querySelector('[data-o-comments-article-id="id"]');
-			comments = new Stream(mockStreamEl);
-		});
+				fixtures.streamMarkup();
+				mockStreamEl = document.querySelector('[data-o-comments-article-id="id"]');
+				comments = new Stream(mockStreamEl);
+			});
 
-		afterEach(() => {
-			sandbox.restore();
-			document.removeEventListener('oCommentsReady', oCommentsReadyListener);
-			fixtures.reset();
-		});
+			afterEach(() => {
+				sandbox.restore();
+				document.removeEventListener('oCommentsReady', oCommentsReadyListener);
+				fixtures.reset();
+			});
 
-		describe("._renderComments", () => {
 			it("creates a script element", () => {
 				proclaim.isNotNull(scriptEl);
 			});
@@ -54,39 +54,124 @@ describe("Stream", () => {
 				proclaim.isFunction(onloadAttribute);
 			});
 		});
+
+		describe("when an authentication fails", () => {
+			const sandbox = sinon.createSandbox();
+			let comments;
+			let mockStreamEl;
+			let rootEl;
+			let scriptEl;
+			let oCommentsReadyListener;
+
+			beforeEach((done) => {
+				sandbox.stub(auth, 'getJsonWebToken').rejects(new Error());
+				oCommentsReadyListener = () => {
+					rootEl = comments.streamEl;
+					scriptEl = rootEl.querySelector('script');
+					done();
+				};
+
+				document.addEventListener('oCommentsFailed', oCommentsReadyListener);
+
+				fixtures.streamMarkup();
+				mockStreamEl = document.querySelector('[data-o-comments-article-id="id"]');
+				comments = new Stream(mockStreamEl);
+			});
+
+			afterEach(() => {
+				sandbox.restore();
+				document.removeEventListener('oCommentsFailed', oCommentsReadyListener);
+				fixtures.reset();
+			});
+
+			it("won't create a script element", () => {
+				proclaim.isNull(scriptEl);
+			});
+		});
+
+		describe("when the user doesn't have a display name", () => {
+			const sandbox = sinon.createSandbox();
+			let mockStreamEl;
+			let overlayReadyListener;
+
+			beforeEach(() => {
+				sandbox.stub(auth, 'getJsonWebToken').resolves({ displayName: false });
+				fixtures.streamMarkup();
+				mockStreamEl = document.querySelector('[data-o-comments-article-id="id"]');
+				new Stream(mockStreamEl);
+			});
+
+			afterEach(() => {
+				sandbox.restore();
+				document.removeEventListener('oOverlay.ready', overlayReadyListener);
+				fixtures.reset();
+			});
+
+			it("it calls renderDisplayNamePrompt()", (done) => {
+				overlayReadyListener = () => {
+					const overlayEl = document.querySelector('.display-name-form');
+					proclaim.isNotNull(overlayEl);
+					done();
+				};
+				document.addEventListener('oOverlay.ready', overlayReadyListener);
+			});
+		});
 	});
 
-	describe("when an authentication fails", () => {
-		const sandbox = sinon.sandbox.create();
-		let comments;
-		let mockStreamEl;
-		let rootEl;
-		let scriptEl;
-		let oCommentsReadyListener;
+	describe(".renderDisplayNamePrompt", () => {
+		describe("when a valid display name is submitted", () => {
+			const sandbox = sinon.createSandbox();
+			let comments;
+			let mockStreamEl;
+			let rootEl;
+			let scriptEl;
+			let oCommentsEmbedListener;
+			let userLoggedInListener;
 
-		beforeEach((done) => {
-			sandbox.stub(auth, 'getJsonWebToken').rejects(new Error());
-			oCommentsReadyListener = () => {
-				rootEl = comments.streamEl;
-				scriptEl = rootEl.querySelector('script');
-				done();
-			};
+			beforeEach((done) => {
+				const getJsonWebTokenStub = sandbox.stub(auth, 'getJsonWebToken');
+				getJsonWebTokenStub.withArgs().resolves({ displayName: false });
+				getJsonWebTokenStub.withArgs('commenter').resolves({
+					token: 'fake-json-web-token',
+					displayName: 'commenter'
+				});
 
-			document.addEventListener('oCommentsFailed', oCommentsReadyListener);
+				oCommentsEmbedListener = () => {
+					rootEl = comments.streamEl;
+					scriptEl = rootEl.querySelector('script');
+					done();
+				};
 
-			fixtures.streamMarkup();
-			mockStreamEl = document.querySelector('[data-o-comments-article-id="id"]');
-			comments = new Stream(mockStreamEl);
-		});
+				document.addEventListener('oComments.streamEmbedReady', oCommentsEmbedListener);
 
-		afterEach(() => {
-			document.removeEventListener('oCommentsFailed', oCommentsReadyListener);
-			sandbox.restore();
-			fixtures.reset();
-		});
+				fixtures.streamMarkup();
+				mockStreamEl = document.querySelector('[data-o-comments-article-id="id"]');
+				comments = new Stream(mockStreamEl);
+			});
 
-		it("won't create a script element", () => {
-			proclaim.isNull(scriptEl);
+			afterEach(() => {
+				fixtures.reset();
+				document.removeEventListener('oComments.streamEmbedReady', oCommentsEmbedListener);
+				document.removeEventListener('oComments.userLoggedIn', userLoggedInListener);
+				sandbox.restore();
+			});
+
+			it("calls login()", (done) => {
+				const loginStub = sandbox.stub();
+				comments.embed.login = loginStub;
+				document.dispatchEvent(new CustomEvent('oComments.displayNameValid', {
+					detail: {
+						displayName: 'commenter'
+					}
+				}));
+
+				userLoggedInListener = () => {
+					proclaim.isTrue(loginStub.calledWith('fake-json-web-token'));
+					done();
+				};
+
+				document.addEventListener('oComments.userLoggedIn', userLoggedInListener);
+			});
 		});
 	});
 
