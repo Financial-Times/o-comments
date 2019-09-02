@@ -48,5 +48,8 @@ const isDisplayNameValid = (displayName) => {
 	return displayName === 'foo' ? false : true;
 };
 
-export default displayNameOverlay;
+const storeDisplayName = (displayName) => {
+	return displayName === 'bar' ? false : true;
+};
 
+export default displayNameOverlay;
