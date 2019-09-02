@@ -25,8 +25,24 @@ const displayNameOverlay = () => {
 	});
 };
 
-const getDisplayName = () => {
-	const submitForm = document.querySelector('.display-name-form');
+const saveDisplayName = (event) => {
+	event.preventDefault();
+	const submitForm = event.srcElement;
+	const input = submitForm.querySelector('input');
+	const displayName = input.value;
+
+	if (isDisplayNameValid(displayName)) {
+		storeDisplayName(displayName);
+
+		document.dispatchEvent(new CustomEvent('oComments.displayNameValid', {
+			detail: {
+				displayName
+			}
+		}));
+	} else {
+		// TODO: Prompt user to enter another display name
+	}
+};
 
 	submitForm.addEventListener('submit', (event) => {
 		event.preventDefault();
