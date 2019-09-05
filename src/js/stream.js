@@ -29,12 +29,12 @@ class Stream {
 		getJsonWebToken()
 			.then((jwtResponse) => {
 				const scriptElement = document.createElement('script');
-				scriptElement.src = 'https://ft.staging.coral.coralproject.net/assets/js/embed.js';
+				scriptElement.src = 'https://ft.coral.coralproject.net/assets/js/embed.js';
 				scriptElement.onload = () => Coral.createStreamEmbed(
 					{
 						id: this.streamEl.id,
 						storyURL: this.options.storyUrl,
-						rootURL: 'https://ft.staging.coral.coralproject.net',
+						rootURL: 'https://ft.coral.coralproject.net',
 						autoRender: true,
 						accessToken: jwtResponse.token,
 						events: (events) => {
