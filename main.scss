@@ -1,6 +1,9 @@
 @import 'src/scss/variables';
 @import 'src/scss/functions';
 @import 'src/scss/mixins';
+@import 'o-buttons/main';
+@import 'o-overlay/main';
+@import 'o-forms/main';
 
 @if ($o-comments-is-silent == false) {
 	@include oComments;
@@ -8,3 +11,11 @@
 	// Set to silent again to avoid being output twice
 	$o-comments-is-silent: true !global;
 };
+
+.display-name-form {
+	@include oButtonsTheme($theme: 'primary');
+	@include oOverlayIncludeAll();
+	@include oForms($opts: (
+		'elements': ('text')
+	));
+}

@@ -80,25 +80,50 @@ module.exports = () => {
 	});
 
 	describe(".renderComments and .getJsonWebToken are successful", () => {
-		it("calls .login", (done) => {
-			const mockStreamEl = document.querySelector('[data-o-comments-article-id="id"]');
-			const stream = new Stream(mockStreamEl);
+		describe("when user has a display name", () => {
+			it("calls .login", (done) => {
+				const mockStreamEl = document.querySelector('[data-o-comments-article-id="id"]');
+				const stream = new Stream(mockStreamEl);
 
-			const renderStub = sandbox.stub();
-			const tokenStub = sandbox.stub();
-			const loginStub = sandbox.stub();
+				const renderStub = sandbox.stub();
+				const tokenStub = sandbox.stub();
+				const loginStub = sandbox.stub();
 
-			stream.getJsonWebToken = tokenStub.resolves();
-			stream.renderComments = renderStub.resolves();
-			stream.login = loginStub;
-			stream.token = 'fake-token';
-			stream.embed = {};
+				stream.getJsonWebToken = tokenStub.resolves();
+				stream.renderComments = renderStub.resolves();
+				stream.login = loginStub;
+				stream.token = 'fake-token';
+				stream.embed = {};
 
-			stream.init().
-				then(() => {
-					proclaim.isTrue(loginStub.calledOnce);
-					done();
-				});
+				stream.init().
+					then(() => {
+						proclaim.isTrue(loginStub.calledOnce);
+						done();
+					});
+			});
+		});
+
+		describe("when user doesn't have a display name", () => {
+			it("calls .renderDisplayNameOverlay", (done) => {
+				const mockStreamEl = document.querySelector('[data-o-comments-article-id="id"]');
+				const stream = new Stream(mockStreamEl);
+
+				const renderStub = sandbox.stub();
+				const tokenStub = sandbox.stub();
+				const displayNameStub = sandbox.stub();
+
+				stream.getJsonWebToken = tokenStub.resolves();
+				stream.renderComments = renderStub.resolves();
+				Stream.renderDisplayNameOverlay = displayNameStub;
+				stream.token = undefined;
+				stream.userIsSignedIn = true;
+
+				stream.init().
+					then(() => {
+						proclaim.isTrue(displayNameStub.calledOnce);
+						done();
+					});
+			});
 		});
 	});
 };

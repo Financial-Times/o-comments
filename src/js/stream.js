@@ -1,4 +1,5 @@
 import {coralEventMap, findValidErrors} from './utils/events';
+import displayNameOverlay from './utils/display-name';
 
 class Stream {
 	/**
@@ -17,10 +18,18 @@ class Stream {
 	init () {
 		return Promise.all([this.renderComments(), this.getJsonWebToken()])
 			.then(() => {
+				if (!this.token && this.userIsSignedIn) {
+					Stream.renderDisplayNameOverlay();
+				}
+
 				if (this.token && this.embed) {
 					this.login();
 				}
 			});
+	}
+
+	static renderDisplayNameOverlay () {
+		displayNameOverlay();
 	}
 
 	login () {
@@ -48,18 +57,22 @@ class Stream {
 				return { token: undefined, userIsSignedIn: true };
 			}
 
-			// user is signed in and has a pseudonym
+			// User is signed in and has a display name
 			if (response.ok) {
 				return response.json();
 			} else {
-				// user is not signed in or session token is invalid
-				// or error in comments api
+				// User is not signed in, has an invalid session token
+				// or there's an error from next-comments-api
 				return { token: undefined, userIsSignedIn: false };
 			}
 		}).then(jsonWebToken => {
 
 			if (jsonWebToken.token) {
 				this.token = jsonWebToken.token;
+			}
+
+			if (jsonWebToken.userIsSignedIn) {
+				this.userIsSignedIn = jsonWebToken.userIsSignedIn;
 			}
 
 			return jsonWebToken;
