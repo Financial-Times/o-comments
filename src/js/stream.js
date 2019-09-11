@@ -19,17 +19,13 @@ class Stream {
 		return Promise.all([this.renderComments(), this.getJsonWebToken()])
 			.then(() => {
 				if (!this.token && this.userIsSignedIn) {
-					Stream.renderDisplayNameOverlay();
+					displayNameOverlay();
 				}
 
 				if (this.token && this.embed) {
 					this.login();
 				}
 			});
-	}
-
-	static renderDisplayNameOverlay () {
-		displayNameOverlay();
 	}
 
 	login () {

@@ -1,5 +1,5 @@
 import proclaim from 'proclaim';
-import displayNameOverlay from '../../src/js/utils/display-name';
+import {displayNameOverlay} from '../../src/js/utils/display-name';
 
 describe("display-name", () => {
 	describe(".displayNameOverlay", () => {

@@ -2,6 +2,7 @@ import proclaim from 'proclaim';
 import sinon from 'sinon/pkg/sinon';
 import * as fixtures from '../../helpers/fixtures';
 import Stream from '../../../src/js/stream';
+import displayName from '../../../src/js/utils/display-name';
 
 const sandbox = sinon.createSandbox();
 
@@ -104,17 +105,16 @@ module.exports = () => {
 		});
 
 		describe("when user doesn't have a display name", () => {
-			it("calls .renderDisplayNameOverlay", (done) => {
+			it("calls .displayNameOverlay", (done) => {
 				const mockStreamEl = document.querySelector('[data-o-comments-article-id="id"]');
 				const stream = new Stream(mockStreamEl);
 
+				const displayNameStub = sandbox.stub(displayName, 'displayNameOverlay');
 				const renderStub = sandbox.stub();
 				const tokenStub = sandbox.stub();
-				const displayNameStub = sandbox.stub();
 
-				stream.getJsonWebToken = tokenStub.resolves();
 				stream.renderComments = renderStub.resolves();
-				Stream.renderDisplayNameOverlay = displayNameStub;
+				stream.getJsonWebToken = tokenStub.resolves();
 				stream.token = undefined;
 				stream.userIsSignedIn = true;
 
