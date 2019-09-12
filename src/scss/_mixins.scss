@@ -18,6 +18,14 @@
 		font-weight: bold;
 		padding-left: oSpacingByName('s4');
 	}
+
+	.display-name-form {
+		@include oButtonsTheme($theme: 'primary');
+		@include oOverlayIncludeAll();
+		@include oForms($opts: (
+			'elements': ('text')
+		));
+	}
 }
 
 /// Provide a component specific error message

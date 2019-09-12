@@ -12,6 +12,14 @@
 					.test-mixin .o-comments__staging-message-container {
 						margin-bottom: oSpacingByName('s2');
 					}
+
+					.test-mixin .display-name-form {
+						@include oButtonsTheme($theme: 'primary');
+						@include oOverlayIncludeAll();
+						@include oForms($opts: (
+							'elements': ('text')
+						));
+					}
 				};
 			};
 		}

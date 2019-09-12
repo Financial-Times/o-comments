@@ -11,11 +11,3 @@
 	// Set to silent again to avoid being output twice
 	$o-comments-is-silent: true !global;
 };
-
-.display-name-form {
-	@include oButtonsTheme($theme: 'primary');
-	@include oOverlayIncludeAll();
-	@include oForms($opts: (
-		'elements': ('text')
-	));
-}
