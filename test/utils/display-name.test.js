@@ -1,14 +1,63 @@
 import proclaim from 'proclaim';
-import {displayNameOverlay} from '../../src/js/utils/display-name';
+import fetchMock from 'fetch-mock';
+import displayName from '../../src/js/utils/display-name';
+
+const commentsApiUrl = 'https://comments-api.ft.com/user/displayname/test-display-name';
 
 describe("display-name", () => {
-	describe(".displayNameOverlay", () => {
-		it("opens the overlay", () => {
-			displayNameOverlay();
+	it("opens the overlay form", () => {
+		displayName.displayNameOverlay();
 
-			document.addEventListener('oOverlay.ready', () => {
-				const overlayEl = document.querySelector('.display-name-form');
-				proclaim.isNotNull(overlayEl);
+		document.addEventListener('oOverlay.ready', () => {
+			const formEl = document.querySelector('.display-name-form');
+			proclaim.isNotNull(formEl);
+		});
+	});
+
+	describe("when the form is submitted", () => {
+		let getRequestMock;
+		let postRequestMock;
+
+		beforeEach(() => {
+			getRequestMock = fetchMock.get(commentsApiUrl, 200);
+			postRequestMock = fetchMock.post(commentsApiUrl, 200);
+		});
+
+		afterEach(() => {
+			fetchMock.reset();
+		});
+
+		describe("when .isDisplayNameValid is called", () => {
+			it("sends a get request to Comments API to validate display name", (done) => {
+				displayName.displayNameOverlay();
+
+				document.addEventListener('oOverlay.ready', () => {
+					const inputEl = document.querySelector('input');
+					inputEl.value = 'test-display-name';
+
+					const buttonEl = document.querySelector('button');
+					buttonEl.click();
+
+					proclaim.isTrue(getRequestMock.called());
+					done();
+				});
+			});
+
+			describe("when a display name is valid", () => {
+				it("sends a post request to Comments API to store the display name", (done) => {
+					displayName.displayNameOverlay();
+
+					document.addEventListener('oOverlay.ready', () => {
+						const inputEl = document.querySelector('input');
+						inputEl.value = 'test-display-name';
+
+						const buttonEl = document.querySelector('button');
+						buttonEl.click();
+
+						proclaim.isTrue(postRequestMock.called());
+						done();
+					});
+				});
 			});
 		});
 	});
