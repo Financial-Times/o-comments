@@ -16,8 +16,10 @@ const displayNameOverlay = () => {
 		const submitForm = document.querySelector('.display-name-form');
 
 		submitForm.addEventListener('submit', getDisplayName);
+	});
 
-		// TODO: Close the overlay when display name is successfully submitted
+	document.addEventListener('oComments.displayNameValid', () => {
+		overlay.close();
 	});
 };
 
