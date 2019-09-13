@@ -30,6 +30,13 @@ const getDisplayName = (event) => {
 	isDisplayNameValid(displayName)
 		.then(isValid => {
 			if (isValid) {
+				const event = new CustomEvent('oComments.displayNameValid', {
+					detail: {
+						displayName
+					}
+				});
+				document.dispatchEvent(event);
+
 				storeDisplayName(displayName);
 			} else {
 				// TODO: Prompt user to enter a valid display name
