@@ -3,6 +3,8 @@ import fetchMock from 'fetch-mock';
 import * as fixtures from '../../helpers/fixtures';
 import Stream from '../../../src/js/stream';
 
+const commentsApiUrl = `https://comments-api.ft.com/user/auth/`;
+
 module.exports = () => {
 	beforeEach(() => {
 		fixtures.streamMarkup();
@@ -16,11 +18,25 @@ module.exports = () => {
 		proclaim.isFunction(new Stream().getJsonWebToken);
 	});
 
+	describe("when a display name is passed in", () => {
+		before(() => {
+			fetchMock.mock('https://comments-api.ft.com/user/auth?displayName=fake-display-name', {});
+			fetchMock.mock(commentsApiUrl, {});
+		});
+
+		after(() => {
+			fetchMock.reset();
+		});
+
+		it("fetches token using the display name", () => {
+			return new Stream().getJsonWebToken('fake-display-name')
+				.then(proclaim.isTrue(fetchMock.called('https://comments-api.ft.com/user/auth?displayName=fake-display-name')));
+		});
+	});
+
 	describe("when comments api returns a valid response", () => {
 		before(() => {
-			fetchMock.mock('https://comments-api.ft.com/user/auth/', {
-				token: '12345'
-			});
+			fetchMock.mock(commentsApiUrl, { token: '12345' });
 		});
 
 		after(() => {
@@ -40,7 +56,7 @@ module.exports = () => {
 
 	describe("when the comments api response is missing the token", () => {
 		before(() => {
-			fetchMock.mock('https://comments-api.ft.com/user/auth/', {});
+			fetchMock.mock(commentsApiUrl, {});
 		});
 
 		after(() => {
@@ -60,7 +76,7 @@ module.exports = () => {
 
 	describe("when the comments api response is missing the token", () => {
 		before(() => {
-			fetchMock.mock('https://comments-api.ft.com/user/auth/', {token: undefined});
+			fetchMock.mock(commentsApiUrl, {token: undefined});
 		});
 
 		after(() => {
@@ -80,7 +96,7 @@ module.exports = () => {
 
 	describe("when the comments api responds with 205", () => {
 		before(() => {
-			fetchMock.mock('https://comments-api.ft.com/user/auth/', 205);
+			fetchMock.mock(commentsApiUrl, 205);
 		});
 
 		after(() => {
@@ -105,7 +121,7 @@ module.exports = () => {
 
 	describe("when the comments api responds with 404", () => {
 		before(() => {
-			fetchMock.mock('https://comments-api.ft.com/user/auth/', 404);
+			fetchMock.mock(commentsApiUrl, 404);
 		});
 
 		after(() => {
@@ -130,7 +146,7 @@ module.exports = () => {
 
 	describe("when the comments api responds with a bad response other than 404", () => {
 		before(() => {
-			fetchMock.mock('https://comments-api.ft.com/user/auth/', 500);
+			fetchMock.mock(commentsApiUrl, 500);
 		});
 
 		after(() => {
