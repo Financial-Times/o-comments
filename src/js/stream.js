@@ -20,10 +20,16 @@ class Stream {
 			.then(() => {
 				if (!this.token && this.userIsSignedIn) {
 					displayNameOverlay();
-				}
 
-				if (this.token && this.embed) {
-					this.login();
+					document.addEventListener('oComments.displayNameValid', (event) => {
+						this.getJsonWebToken(event.detail.displayName)
+							.then(jsonWebToken => {
+								this.token = jsonWebToken.token;
+								this.login();
+							});
+					});
+				} else {
+					this.login(this.token);
 				}
 			});
 	}

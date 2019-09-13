@@ -118,11 +118,34 @@ module.exports = () => {
 				stream.token = undefined;
 				stream.userIsSignedIn = true;
 
-				stream.init().
-					then(() => {
+				stream.init()
+					.then(() => {
 						proclaim.isTrue(displayNameStub.calledOnce);
 						done();
 					});
+			});
+
+			describe("when display name is valid", () => {
+				it("logs user into Coral using their display name", () => {
+					const mockStreamEl = document.querySelector('[data-o-comments-article-id="id"]');
+					const stream = new Stream(mockStreamEl);
+
+					const renderStub = sandbox.stub();
+					const tokenStub = sandbox.stub();
+					const loginStub = sandbox.stub();
+
+					sandbox.stub(displayName, 'displayNameOverlay');
+					stream.renderComments = renderStub.resolves();
+					stream.getJsonWebToken = tokenStub.resolves();
+					stream.token = undefined;
+					stream.userIsSignedIn = true;
+					stream.login = loginStub;
+
+					stream.init()
+						.then(() => {
+							proclaim.isTrue(loginStub.calledOnce);
+						});
+				});
 			});
 		});
 	});
