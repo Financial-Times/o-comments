@@ -20,7 +20,7 @@ module.exports = () => {
 
 	describe("when a display name is passed in", () => {
 		before(() => {
-			fetchMock.mock('https://comments-api.ft.com/user/auth?displayName=fake-display-name', {});
+			fetchMock.mock('https://comments-api.ft.com/user/auth/?displayName=fake-display-name', {});
 			fetchMock.mock(commentsApiUrl, {});
 		});
 
@@ -30,7 +30,7 @@ module.exports = () => {
 
 		it("fetches token using the display name", () => {
 			return new Stream().getJsonWebToken('fake-display-name')
-				.then(proclaim.isTrue(fetchMock.called('https://comments-api.ft.com/user/auth?displayName=fake-display-name')));
+				.then(proclaim.isTrue(fetchMock.called('https://comments-api.ft.com/user/auth/?displayName=fake-display-name')));
 		});
 	});
 

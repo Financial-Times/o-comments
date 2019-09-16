@@ -42,7 +42,7 @@ class Stream {
 		}
 	}
 
-	getJsonWebToken () {
+	getJsonWebToken (displayName) {
 		const url = new URL('https://comments-api.ft.com/user/auth/');
 
 		if (this.useStagingEnvironment) {
@@ -51,6 +51,10 @@ class Stream {
 
 		if (this.options.sourceApp) {
 			url.searchParams.append('sourceApp', this.options.sourceApp);
+		}
+
+		if (displayName) {
+			url.searchParams.append('displayName', displayName);
 		}
 
 		return fetch(url, { credentials: 'include' }).then(response => {
