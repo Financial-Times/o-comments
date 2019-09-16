@@ -2,7 +2,7 @@ import proclaim from 'proclaim';
 import fetchMock from 'fetch-mock';
 import displayName from '../../src/js/utils/display-name';
 
-const commentsApiUrl = 'https://comments-api.ft.com/user/displayname/test-display-name';
+const commentsApiUrl = 'https://comments-api.ft.com/user/displayname/test_display_name';
 
 describe("display-name", () => {
 	it("opens the overlay form", () => {
@@ -33,7 +33,7 @@ describe("display-name", () => {
 
 				document.addEventListener('oOverlay.ready', () => {
 					const inputEl = document.querySelector('input');
-					inputEl.value = 'test-display-name';
+					inputEl.value = 'test_display_name';
 
 					const buttonEl = document.querySelector('button');
 					buttonEl.click();
@@ -49,7 +49,7 @@ describe("display-name", () => {
 
 					document.addEventListener('oOverlay.ready', () => {
 						const inputEl = document.querySelector('input');
-						inputEl.value = 'test-display-name';
+						inputEl.value = 'test_display_name';
 
 						const buttonEl = document.querySelector('button');
 						buttonEl.click();

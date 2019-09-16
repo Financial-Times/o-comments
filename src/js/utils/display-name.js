@@ -47,7 +47,14 @@ const getDisplayName = (event) => {
 };
 
 const isDisplayNameValid = (displayName) => {
-	const url = `https://comments-api.ft.com/user/displayname/${displayName}`;
+	const regex = /[^a-zA-Z0-9_.]+/;
+
+	if (regex.test(displayName)) {
+		return Promise.resolve(false);
+	}
+
+	const trimmedDisplayName = displayName.trim();
+	const url = `https://comments-api.ft.com/user/displayname/${trimmedDisplayName}`;
 
 	return fetch(url, { method: 'GET' })
 		.then(response => {
