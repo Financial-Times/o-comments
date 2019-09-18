@@ -18,16 +18,15 @@ class Stream {
 	init () {
 		return Promise.all([this.renderComments(), this.getJsonWebToken()])
 			.then(() => {
-				if (!this.token && this.userIsSignedIn) {
-					displayNameOverlay();
-
-					document.addEventListener('oComments.displayNameValid', (event) => {
-						this.getJsonWebToken(event.detail.displayName)
-							.then(jsonWebToken => {
-								this.token = jsonWebToken.token;
-								this.login();
+				if (!this.displayName) {
+					displayNameOverlay()
+						.then(displayName => {
+							this.getJsonWebToken(displayName)
+								.then(jsonWebToken => {
+									this.token = jsonWebToken.token;
+									this.login();
+								});
 							});
-					});
 				} else {
 					this.login(this.token);
 				}
@@ -69,16 +68,15 @@ class Stream {
 			} else {
 				// User is not signed in, has an invalid session token
 				// or there's an error from next-comments-api
-				return { token: undefined, userIsSignedIn: false };
+				return {};
 			}
-		}).then(jsonWebToken => {
-
-			if (jsonWebToken.token) {
+		}).then(json => {
+			if (json.token) {
 				this.token = jsonWebToken.token;
 			}
 
-			if (jsonWebToken.userIsSignedIn) {
-				this.userIsSignedIn = jsonWebToken.userIsSignedIn;
+			if (json.displayName) {
+				this.displayName = json.displayName;
 			}
 
 			return jsonWebToken;

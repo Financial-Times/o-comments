@@ -1,104 +1,93 @@
 import Overlay from 'o-overlay';
 
-const displayNameOverlay = () => {
+const renderOverlay= () => {
 	const overlayContent = `
-		<form class="display-name-form">
-			<div class="o-forms">
-				<label class="o-forms__label">Display name</label>
-				<input type="text" class="o-forms__text" />
-				<div id="duplicate-error">
-					<div class="o-forms__errortext">Display name is already in use.</div>
+			<form id="o-comments-displayname-form" class="o-forms o-forms">
+				<label for="o-comments-displayname-input" class="o-forms__label">Display name</label>
+				<div class="o-comments--displayname-container">
+					<input type="text" class="o-forms__text o-comments-displayname-input" id="o-comments-displayname-input">
+					<button type="submit" class="o-comments-o-buttons--primary">Save</button>
 				</div>
-				<div id="character-error">
-					<div class="o-forms__errortext">Only alphanumeric characters, underscores and periods are allowed.</div>
-				</div>
-			</div>
-			<button class="o-buttons o-buttons--primary">Save</button>
-			<button class="o-buttons o-buttons--primary o-overlay__close">Close</button>
+				<div id="o-comments-displayname-error" class="o-forms__errortext o-comments-displayname-error"></div>
+			</form>
 		</form>
 	`;
 
 	const overlay = new Overlay('displayName', {
 		html: overlayContent,
-		customclose: true
+		heading: {
+			title: 'Choose a commenting display name',
+			shaded: true
+		}
 	});
 
 	overlay.open();
 
-	document.addEventListener('oOverlay.ready', () => {
-		const submitForm = document.querySelector('.display-name-form');
+	return overlay;
+}
 
-		submitForm.addEventListener('submit', getDisplayName);
-	});
+const validateDisplayName = (event, done) => {
+	event.preventDefault();
+	const displayNameForm = document.getElementById('o-comments-displayname-form');
+	const errorMessage = document.getElementById('o-comments-displayname-error');
+	const displayName = getDisplayName(event);
+	const trimmedDisplayName = displayName.trim();
+	const containsInvalidCharacters = displayNameDoesntMatchCoralTalkRules(trimmedDisplayName);
 
-	document.addEventListener('oComments.displayNameValid', () => {
-		overlay.close();
-	});
+	if (containsInvalidCharacters) {
+		errorMessage.innerText = 'Only alphanumeric characters, underscores and periods are allowed';
+		displayNameForm.classList.add('o-forms--error');
+	} else {
+		displayNameIsUnique(trimmedDisplayName)
+			.then(isUnique => {
+				if (isUnique) {
+					done(trimmedDisplayName);
+				} else {
+					errorMessage.innerText = 'Unfortunately that display name is already taken';
+					displayNameForm.classList.add('o-forms--error');
+				}
+			});
+	}
+
 };
 
 const getDisplayName = (event) => {
-	event.preventDefault();
 	const submitForm = event.srcElement;
 	const input = submitForm.querySelector('input');
 	const displayName = input.value;
 
-	isDisplayNameValid(displayName)
-		.then(response => {
-			if (response.isValid) {
-				const event = new CustomEvent('oComments.displayNameValid', {
-					detail: {
-						displayName
-					}
-				});
-				document.dispatchEvent(event);
-
-				storeDisplayName(displayName);
-			} else {
-				const duplicateErrorEl = document.getElementById('duplicate-error');
-				const characterErrorEl = document.getElementById('character-error');
-
-				if (response.displayNameExists) {
-					duplicateErrorEl.className = 'o-forms--error';
-					characterErrorEl.className = '';
-				} else {
-					characterErrorEl.className = 'o-forms--error';
-					duplicateErrorEl.className = '';
-				}
-			}
-		});
+	return displayName;
 };
 
-const isDisplayNameValid = (displayName) => {
-	const regex = /[^a-zA-Z0-9_.]+/;
+const displayNameDoesntMatchCoralTalkRules = (displayName) => {
+	const containsCharactersNotInCoralTalkRules = /[^a-z0-9_.]+/i;
 
-	if (regex.test(displayName)) {
-		return Promise.resolve({ isValid: false });
-	}
+	return containsCharactersNotInCoralTalkRules.test(displayName) ?
+		true :
+		false;
+}
 
-	const trimmedDisplayName = displayName.trim();
-	const url = `https://comments-api.ft.com/user/displayname/${trimmedDisplayName}`;
-
-	return fetch(url, { method: 'GET' })
-		.then(response => {
-			if (!response.ok) {
-				return { isValid: false, displayNameExists: true };
-			}
-			return { isValid: true };
-		});
-};
-
-const storeDisplayName = (displayName) => {
+const displayNameIsUnique = (displayName) => {
 	const url = `https://comments-api.ft.com/user/displayname/${displayName}`;
 
-	return fetch(url, { method: 'POST' })
-		.then(response => {
-			if (!response.ok) {
-				throw new Error(`Error: ${response.message}`);
-			}
-			return response.status;
+	return fetch(url, { method: 'GET' })
+		.then(response => response.json())
+		.then(({available}) => {
+			return available;
 		});
-};
+}
 
-export default {
-	displayNameOverlay
-};
+export default () => new Promise((resolve, reject) => {
+	const overlay = renderOverlay();
+
+	document.addEventListener('oOverlay.ready', () => {
+		const submitForm = document.getElementById('o-comments-displayname-form');
+
+		submitForm.addEventListener('submit', (event) => {
+			validateDisplayName(event, (displayName) => {
+				overlay.close();
+				resolve(displayName);
+			});
+		});
+	});
+});
