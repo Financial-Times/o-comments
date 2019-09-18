@@ -72,9 +72,15 @@ describe("display-name", () => {
 							const buttonEl = document.querySelector('button');
 							buttonEl.click();
 
-							const errorEl = document.getElementById('character-error');
-							proclaim.include(errorEl.innerHTML, 'Only alphanumeric characters, underscores and periods are allowed.');
-							done();
+							setTimeout(() => {
+								try {
+									const errorEl = document.getElementById('character-error');
+									proclaim.include(errorEl.innerHTML, 'Only alphanumeric characters, underscores and periods are allowed.');
+									done();
+								} catch (error) {
+									done(error);
+								}
+							}, 1000);
 						});
 					});
 				});
@@ -94,9 +100,15 @@ describe("display-name", () => {
 							const buttonEl = document.querySelector('button');
 							buttonEl.click();
 
-							const errorEl = document.getElementById('duplicate-error');
-							proclaim.include(errorEl.innerHTML, 'Display name is already in use');
-							done();
+							setTimeout(() => {
+								try {
+									const errorEl = document.getElementById('duplicate-error');
+									proclaim.include(errorEl.innerHTML, 'Display name is already in use');
+									done();
+								} catch (error) {
+									done(error);
+								}
+							}, 1000);
 						});
 					});
 				});
