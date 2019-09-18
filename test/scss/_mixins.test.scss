@@ -16,9 +16,7 @@
 					.test-mixin .display-name-form {
 						@include oButtonsTheme($theme: 'primary');
 						@include oOverlayIncludeAll();
-						@include oForms($opts: (
-							'elements': ('text')
-						));
+						@include oFormsBaseFeatures();
 					}
 				};
 			};

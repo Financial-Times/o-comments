@@ -3,13 +3,26 @@ import Overlay from 'o-overlay';
 const displayNameOverlay = () => {
 	const overlayContent = `
 		<form class="display-name-form">
-			<span>Create a display name</span>
-			<input type="text"/>
-			<button type="submit">Save</button>
+			<div class="o-forms">
+				<label class="o-forms__label">Display name</label>
+				<input type="text" class="o-forms__text" />
+				<div id="duplicate-error">
+					<div class="o-forms__errortext">Display name is already in use.</div>
+				</div>
+				<div id="character-error">
+					<div class="o-forms__errortext">Only alphanumeric characters, underscores and periods are allowed.</div>
+				</div>
+			</div>
+			<button class="o-buttons o-buttons--primary">Save</button>
+			<button class="o-buttons o-buttons--primary o-overlay__close">Close</button>
 		</form>
 	`;
 
-	const overlay = new Overlay('displayName', { html: overlayContent });
+	const overlay = new Overlay('displayName', {
+		html: overlayContent,
+		customclose: true
+	});
+
 	overlay.open();
 
 	document.addEventListener('oOverlay.ready', () => {
@@ -30,8 +43,8 @@ const getDisplayName = (event) => {
 	const displayName = input.value;
 
 	isDisplayNameValid(displayName)
-		.then(isValid => {
-			if (isValid) {
+		.then(response => {
+			if (response.isValid) {
 				const event = new CustomEvent('oComments.displayNameValid', {
 					detail: {
 						displayName
@@ -41,7 +54,16 @@ const getDisplayName = (event) => {
 
 				storeDisplayName(displayName);
 			} else {
-				// TODO: Prompt user to enter a valid display name
+				const duplicateErrorEl = document.getElementById('duplicate-error');
+				const characterErrorEl = document.getElementById('character-error');
+
+				if (response.displayNameExists) {
+					duplicateErrorEl.className = 'o-forms--error';
+					characterErrorEl.className = '';
+				} else {
+					characterErrorEl.className = 'o-forms--error';
+					duplicateErrorEl.className = '';
+				}
 			}
 		});
 };
@@ -50,7 +72,7 @@ const isDisplayNameValid = (displayName) => {
 	const regex = /[^a-zA-Z0-9_.]+/;
 
 	if (regex.test(displayName)) {
-		return Promise.resolve(false);
+		return Promise.resolve({ isValid: false });
 	}
 
 	const trimmedDisplayName = displayName.trim();
@@ -59,9 +81,9 @@ const isDisplayNameValid = (displayName) => {
 	return fetch(url, { method: 'GET' })
 		.then(response => {
 			if (!response.ok) {
-				return false;
+				return { isValid: false, displayNameExists: true };
 			}
-			return true;
+			return { isValid: true };
 		});
 };
 
