@@ -13,11 +13,6 @@
 						margin-bottom: oSpacingByName('s2');
 					}
 
-					.test-mixin .display-name-form {
-						@include oButtonsTheme($theme: 'primary');
-						@include oOverlayIncludeAll();
-						@include oFormsBaseFeatures();
-					}
 				};
 			};
 		}

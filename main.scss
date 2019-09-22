@@ -3,7 +3,6 @@
 @import 'src/scss/mixins';
 @import 'o-overlay/main';
 @import 'o-forms/main';
-@import 'src/scss/displayname-prompt';
 
 @if ($o-comments-is-silent == false) {
 	@include oComments;

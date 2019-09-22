@@ -1,5 +1,6 @@
 import {coralEventMap, findValidErrors} from './utils/events';
-import displayNameOverlay from './utils/display-name';
+import displaynamePrompt from './utils/display-name';
+import fetchJsonWebToken from './utils/fetch-json-web-token';
 
 class Stream {
 	/**
@@ -16,19 +17,19 @@ class Stream {
 	}
 
 	init () {
-		return Promise.all([this.renderComments(), this.getJsonWebToken()])
+		return Promise.all([this.renderComments(), this.authenticateUser()])
 			.then(() => {
-				if (!this.displayName) {
-					displayNameOverlay()
-						.then(displayName => {
-							this.getJsonWebToken(displayName)
-								.then(jsonWebToken => {
-									this.token = jsonWebToken.token;
-									this.login();
-								});
-							});
-				} else {
-					this.login(this.token);
+				if (this.token) {
+					return this.login(this.token);
+				}
+
+				const lastLogin = localStorage.getItem('oComments.login');
+				const recentlyLoggedIn = lastLogin ?
+						lastLogin  > (+new Date() - 120000) :
+						false;
+
+				if (this.displayNameRequired && recentlyLoggedIn) {
+					this.authenticateUser();
 				}
 			});
 	}
@@ -41,49 +42,48 @@ class Stream {
 		}
 	}
 
-	getJsonWebToken (displayName) {
-		const url = new URL('https://comments-api.ft.com/user/auth/');
-
-		if (this.useStagingEnvironment) {
-			url.searchParams.append('staging', '1');
+	authenticateUser (displayname) {
+		if (!displayname && (this.displayNameRequired && this.userValidated)) {
+			return displaynamePrompt()
+				.then(this.authenticateUser)
+				.then(jsonWebToken => {
+					this.token = jsonWebToken.token;
+					this.login();
+				});
 		}
 
-		if (this.options.sourceApp) {
-			url.searchParams.append('sourceApp', this.options.sourceApp);
-		}
+		return fetchJsonWebToken(displayname, this.useStagingEnvironment)
+			.then(json => {
+				if (json.token) {
+					this.token = jsonWebToken.token;
+				}
 
-		if (displayName) {
-			url.searchParams.append('displayName', displayName);
-		}
+				if (json.displayName) {
+					this.displayNameRequired = true;
+				}
 
-		return fetch(url, { credentials: 'include' }).then(response => {
-			// user is signed in but has no display name
-			if (response.status === 205) {
-				return { token: undefined, userIsSignedIn: true };
-			}
+				if (json.validUser && !json.displayName) {
+					this.displayNameRequired = true;
+					this.userValidated = true;
+				}
 
-			// User is signed in and has a display name
-			if (response.ok) {
-				return response.json();
+				return jsonWebToken;
+			}).catch(() => {
+				return false;
+			});
+	}
+
+	eventMapping (name, data) {
+		if (name === 'loginPrompt') {
+			if (this.displayNameRequired && this.userValidated) {
+				this.authenticateUser();
 			} else {
-				// User is not signed in, has an invalid session token
-				// or there's an error from next-comments-api
-				return {};
+				localStorage.setItem('oComments.login', +new Date());
+				this.publishEvent({name, data});
 			}
-		}).then(json => {
-			if (json.token) {
-				this.token = jsonWebToken.token;
-			}
-
-			if (json.displayName) {
-				this.displayName = json.displayName;
-			}
-
-			return jsonWebToken;
-
-		}).catch(() => {
-			return false;
-		});
+		} else {
+			this.publishEvent({name, data});
+		}
 	}
 
 	renderComments () {
@@ -108,9 +108,7 @@ class Stream {
 							rootURL: rootUrl,
 							autoRender: true,
 							events: (events) => {
-								events.onAny((name, data) => {
-									this.publishEvent({name, data});
-								});
+								events.onAny((name, data) => this.eventMapping(name, data));
 							}
 						}
 					);
@@ -168,6 +166,7 @@ class Stream {
 					const oCommentsEvent = new CustomEvent(eventMapping.oComments, {
 						bubbles: true
 					});
+
 					this.streamEl.dispatchEvent(oCommentsEvent);
 
 					if (eventMapping.oTracking && !this.options.disableOTracking) {
