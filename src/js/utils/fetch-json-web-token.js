@@ -21,7 +21,7 @@ export default (displayname, useStaging) => {
 				// They need to set a display name before they can be authenticated with Coral Talk
 				return {
 					validUser: true
-				}
+				};
 			}
 
 			// User is not signed in, has an invalid session token

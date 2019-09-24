@@ -2,7 +2,6 @@ import proclaim from 'proclaim';
 import sinon from 'sinon/pkg/sinon';
 import * as fixtures from '../../helpers/fixtures';
 import Stream from '../../../src/js/stream';
-import displayName from '../../../src/js/utils/display-name';
 
 const sandbox = sinon.createSandbox();
 
@@ -27,29 +26,29 @@ module.exports = () => {
 		proclaim.isTrue(renderStub.calledOnce);
 	});
 
-	it("calls .getJsonWebToken", () => {
+	it("calls .authenticateUser", () => {
 		const mockStreamEl = document.querySelector('[data-o-comments-article-id="id"]');
 		const stream = new Stream(mockStreamEl);
 		const renderStub = sandbox.stub();
-		const tokenStub = sandbox.stub();
-		stream.getJsonWebToken = tokenStub;
+		const authStub = sandbox.stub();
+		stream.authenticateUser = authStub;
 		stream.renderComments = renderStub;
 
 		stream.init();
 
-		proclaim.isTrue(tokenStub.calledOnce);
+		proclaim.isTrue(authStub.calledOnce);
 	});
 
-	describe(".getJsonWebToken returns no JSON Web Token", () => {
+	describe(".authenticateUser returns no JSON Web Token", () => {
 		it(".login is not called", () => {
 			const mockStreamEl = document.querySelector('[data-o-comments-article-id="id"]');
 			const stream = new Stream(mockStreamEl);
 
 			const renderStub = sandbox.stub();
-			const tokenStub = sandbox.stub();
+			const authStub = sandbox.stub();
 			const loginStub = sandbox.stub();
 
-			stream.getJsonWebToken = tokenStub.resolves();
+			stream.authenticateUser = authStub.resolves();
 			stream.renderComments = renderStub.resolves({});
 			stream.login = loginStub;
 
@@ -65,10 +64,10 @@ module.exports = () => {
 			const stream = new Stream(mockStreamEl);
 
 			const renderStub = sandbox.stub();
-			const tokenStub = sandbox.stub();
+			const authStub = sandbox.stub();
 			const loginStub = sandbox.stub();
 
-			stream.getJsonWebToken = tokenStub.resolves({
+			stream.authenticateUser = authStub.resolves({
 				token: 'fake-token'
 			});
 			stream.renderComments = renderStub.resolves();
@@ -80,17 +79,17 @@ module.exports = () => {
 		});
 	});
 
-	describe(".renderComments and .getJsonWebToken are successful", () => {
-		describe("when user has a display name", () => {
+	describe(".renderComments and .authenticateUser are successful", () => {
+		describe("a json web token was created for the user", () => {
 			it("calls .login", (done) => {
 				const mockStreamEl = document.querySelector('[data-o-comments-article-id="id"]');
 				const stream = new Stream(mockStreamEl);
 
 				const renderStub = sandbox.stub();
-				const tokenStub = sandbox.stub();
+				const authStub = sandbox.stub();
 				const loginStub = sandbox.stub();
 
-				stream.getJsonWebToken = tokenStub.resolves();
+				stream.authenticateUser = authStub.resolves();
 				stream.renderComments = renderStub.resolves();
 				stream.login = loginStub;
 				stream.token = 'fake-token';
@@ -101,51 +100,6 @@ module.exports = () => {
 						proclaim.isTrue(loginStub.calledOnce);
 						done();
 					});
-			});
-		});
-
-		describe("when user doesn't have a display name", () => {
-			it("calls .displayNameOverlay", (done) => {
-				const mockStreamEl = document.querySelector('[data-o-comments-article-id="id"]');
-				const stream = new Stream(mockStreamEl);
-
-				const displayNameStub = sandbox.stub(displayName, 'displayNameOverlay');
-				const renderStub = sandbox.stub();
-				const tokenStub = sandbox.stub();
-
-				stream.renderComments = renderStub.resolves();
-				stream.getJsonWebToken = tokenStub.resolves();
-				stream.token = undefined;
-				stream.userIsSignedIn = true;
-
-				stream.init()
-					.then(() => {
-						proclaim.isTrue(displayNameStub.calledOnce);
-						done();
-					});
-			});
-
-			describe("when display name is valid", () => {
-				it("logs user into Coral using their display name", () => {
-					const mockStreamEl = document.querySelector('[data-o-comments-article-id="id"]');
-					const stream = new Stream(mockStreamEl);
-
-					const renderStub = sandbox.stub();
-					const tokenStub = sandbox.stub();
-					const loginStub = sandbox.stub();
-
-					sandbox.stub(displayName, 'displayNameOverlay');
-					stream.renderComments = renderStub.resolves();
-					stream.getJsonWebToken = tokenStub.resolves();
-					stream.token = undefined;
-					stream.userIsSignedIn = true;
-					stream.login = loginStub;
-
-					stream.init()
-						.then(() => {
-							proclaim.isTrue(loginStub.calledOnce);
-						});
-				});
 			});
 		});
 	});

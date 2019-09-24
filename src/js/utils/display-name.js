@@ -1,7 +1,7 @@
 import Overlay from 'o-overlay';
 import displayNameForm from './display-name-form';
 
-const renderOverlay= () => new Promise((resolve) => {
+const renderOverlay = () => {
 	const overlay = new Overlay('displayName', {
 		html: displayNameForm,
 		heading: {
@@ -12,7 +12,7 @@ const renderOverlay= () => new Promise((resolve) => {
 	overlay.open();
 
 	return overlay;
-});
+};
 
 const getDisplayName = (event) => {
 	const submitForm = event.srcElement;
@@ -28,7 +28,7 @@ const displayNameDoesntMatchCoralTalkRules = (displayName) => {
 	return containsCharactersNotInCoralTalkRules.test(displayName) ?
 		true :
 		false;
-}
+};
 
 const displayNameIsUnique = (displayName) => {
 	const url = `https://comments-api.ft.com/user/displayname/${displayName}`;
@@ -38,9 +38,9 @@ const displayNameIsUnique = (displayName) => {
 		.then(({available}) => {
 			return available;
 		});
-}
+};
 
-const validateDisplayName = (overlay) => new Promise(resolve => {
+const validateDisplayName = (overlay, resolve) => {
 	const submitForm = document.getElementById('o-comments-displayname-form');
 
 	submitForm.addEventListener('submit', (event) => {
@@ -67,13 +67,13 @@ const validateDisplayName = (overlay) => new Promise(resolve => {
 				});
 		}
 	});
-});
+};
 
-const renderPrompt = () => new Promise((resolve, reject) => {
+const renderPrompt = () => new Promise((resolve) => {
 	const overlay = renderOverlay();
 
 	document.addEventListener('oOverlay.ready', () => {
-		validateDisplayName();
+		validateDisplayName(overlay, resolve);
 	});
 });
 

@@ -21,16 +21,10 @@ class Stream {
 			.then(() => {
 				if (this.token) {
 					return this.login(this.token);
-				}
-
-				const lastLogin = localStorage.getItem('oComments.login');
-				const recentlyLoggedIn = lastLogin ?
-						lastLogin  > (+new Date() - 120000) :
-						false;
-
-				if (this.displayNameRequired && recentlyLoggedIn) {
+				} else {
 					this.authenticateUser();
 				}
+
 			});
 	}
 
@@ -43,7 +37,12 @@ class Stream {
 	}
 
 	authenticateUser (displayname) {
-		if (!displayname && (this.displayNameRequired && this.userValidated)) {
+		const lastLogin = localStorage.getItem('oComments.login');
+		const recentlyLoggedIn = lastLogin ?
+			lastLogin > (+new Date() - 120000) :
+			false;
+
+		if (!displayname && (this.displayNameRequired && (this.userValidated || recentlyLoggedIn))) {
 			return displaynamePrompt()
 				.then(this.authenticateUser)
 				.then(jsonWebToken => {
@@ -55,11 +54,7 @@ class Stream {
 		return fetchJsonWebToken(displayname, this.useStagingEnvironment)
 			.then(json => {
 				if (json.token) {
-					this.token = jsonWebToken.token;
-				}
-
-				if (json.displayName) {
-					this.displayNameRequired = true;
+					this.token = json.token;
 				}
 
 				if (json.validUser && !json.displayName) {
@@ -67,7 +62,7 @@ class Stream {
 					this.userValidated = true;
 				}
 
-				return jsonWebToken;
+				return json;
 			}).catch(() => {
 				return false;
 			});
