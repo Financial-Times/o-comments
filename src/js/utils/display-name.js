@@ -43,30 +43,32 @@ const displayNameIsUnique = (displayName) => {
 const validateDisplayName = (overlay, resolve) => {
 	const submitForm = document.getElementById('o-comments-displayname-form');
 
-	submitForm.addEventListener('submit', (event) => {
-		event.preventDefault();
-		const displayNameForm = document.getElementById('o-comments-displayname-form');
-		const errorMessage = document.getElementById('o-comments-displayname-error');
-		const displayName = getDisplayName(event);
-		const trimmedDisplayName = displayName.trim();
-		const containsInvalidCharacters = displayNameDoesntMatchCoralTalkRules(trimmedDisplayName);
+	if (submitForm) {
+		submitForm.addEventListener('submit', (event) => {
+			event.preventDefault();
+			const displayNameForm = document.getElementById('o-comments-displayname-form');
+			const errorMessage = document.getElementById('o-comments-displayname-error');
+			const displayName = getDisplayName(event);
+			const trimmedDisplayName = displayName.trim();
+			const containsInvalidCharacters = displayNameDoesntMatchCoralTalkRules(trimmedDisplayName);
 
-		if (containsInvalidCharacters) {
-			errorMessage.innerText = 'Only alphanumeric characters, underscores and periods are allowed';
-			displayNameForm.classList.add('o-forms--error');
-		} else {
-			displayNameIsUnique(trimmedDisplayName)
-				.then(isUnique => {
-					if (isUnique) {
-						overlay.close();
-						resolve(trimmedDisplayName);
-					} else {
-						errorMessage.innerText = 'Unfortunately that display name is already taken';
-						displayNameForm.classList.add('o-forms--error');
-					}
-				});
-		}
-	});
+			if (containsInvalidCharacters) {
+				errorMessage.innerText = 'Only alphanumeric characters, underscores and periods are allowed';
+				displayNameForm.classList.add('o-forms--error');
+			} else {
+				displayNameIsUnique(trimmedDisplayName)
+					.then(isUnique => {
+						if (isUnique) {
+							overlay.close();
+							resolve(trimmedDisplayName);
+						} else {
+							errorMessage.innerText = 'Unfortunately that display name is already taken';
+							displayNameForm.classList.add('o-forms--error');
+						}
+					});
+			}
+		});
+	}
 };
 
 const renderPrompt = () => new Promise((resolve) => {
@@ -74,6 +76,10 @@ const renderPrompt = () => new Promise((resolve) => {
 
 	document.addEventListener('oOverlay.ready', () => {
 		validateDisplayName(overlay, resolve);
+	});
+
+	document.addEventListener('oOverlay.close', () => {
+		overlay.destroy();
 	});
 });
 
