@@ -408,7 +408,6 @@
 			top: 0;
 			padding: 0 0 0 7px;
 			margin: 0 0 0 7px;
-			border-left: 1px solid oColorsGetPaletteColor('black-10');
 		}
 
 		.fyre-comment-like {
@@ -423,13 +422,11 @@
 		}
 
 		.fyre-comment-like-count {
-			font-size: 15px;
-			padding: 0 5px;
-			color: oColorsGetPaletteColor('black-80');
+			display: none;
 		}
 
 		.fyre-comment-like-btn {
-			font-size: 15px;
+			display: none;
 		}
 
 		.fyre-comment-like-imgs {
