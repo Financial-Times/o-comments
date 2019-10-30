@@ -6,8 +6,8 @@ A component, integrated with FT authentication and user data services, to add a 
 - [Markup](#markup)
 	- [Stream](#stream)
 	- [Count](#count)
+	- [Staging environment](#use-staging-environment)
 - [JavaScript](#javascript)
-	- [Interface](#interface)
 	- [Events](#events)
 	- [Tracking](#tracking)
 - [Sass](#sass)
@@ -119,9 +119,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	document.dispatchEvent(new CustomEvent('o.DOMContentLoaded'));
 });
 ```
-
-### Interface
-
 
 ### Events
 
