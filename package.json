@@ -3,5 +3,8 @@
 	"devDependencies": {
 		"eslint-config-origami-component": "^1.0.0",
 		"fetch-mock": "^7.3.3"
+	},
+	"dependencies": {
+		"origami-ci-tools": "^1.1.1"
 	}
 }
