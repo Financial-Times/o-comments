@@ -2,6 +2,19 @@ import * as events from './utils/events';
 import * as displayName from './utils/display-name';
 import * as auth from './utils/auth';
 
+function handleError (error) {
+	const oTrackingEvent = new CustomEvent('oTracking.event', {
+		detail: {
+			category: 'comment',
+			action: 'failure',
+			coral: true,
+			error
+		},
+		bubbles: true
+	});
+	document.body.dispatchEvent(oTrackingEvent);
+}
+
 class Stream {
 	/**
 	 * Class constructor.
@@ -22,6 +35,9 @@ class Stream {
 				if (this.authenticationToken) {
 					this.embed.login(this.authenticationToken);
 				}
+			})
+			.catch(error => {
+				handleError(error);
 			});
 	}
 
@@ -53,7 +69,7 @@ class Stream {
 	}
 
 	renderComments () {
-		return new Promise((resolve) => {
+		return new Promise((resolve, reject) => {
 			try {
 				/*global Coral*/
 				const scriptElement = document.createElement('script');
@@ -97,7 +113,7 @@ class Stream {
 
 				document.dispatchEvent(new Event('oCommentsReady'));
 			} catch (error) {
-				resolve();
+				return reject(error);
 			}
 		});
 	}
