@@ -785,14 +785,14 @@
 		.fyre-stream-header:before {
 			content: 'This conversation is closed to new comments.';
 			display: inline-block;
-			margin: 18px 0 18px 0;
-			padding: 4px 15px 4px 15px;
+			margin: 18px 0;
+			padding: 4px 15px;
 			border: 1px solid #b2b2b2;
 			box-sizing: border-box;
 			width: 100%;
-			font: bold 13px/31px "Helvetica Neue",Arial,Helvetica,Geneva,sans-serif;
+			font: bold 13px/31px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 			color: #4d4845;
-			background: #fff;
+			background: #ffffff;
 		}
 
 		.fyre-stream-more {
