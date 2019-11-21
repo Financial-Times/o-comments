@@ -782,6 +782,18 @@
 			}
 		}
 
+		.fyre-stream-header:before {
+			content: 'This conversation is closed to new comments.';
+			display: inline-block;
+			margin: 18px 0;
+			padding: 4px 15px;
+			border: 1px solid #b2b2b2;
+			box-sizing: border-box;
+			width: 100%;
+			font: bold 13px/31px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+			color: #4d4845;
+			background: #ffffff;
+		}
 
 		.fyre-stream-more {
 			background: none;
@@ -863,206 +875,12 @@
 		}
 	}
 
-
+	.fyre-comment-reply {
+		display: none;
+	}
 
 	.fyre-editor {
-		margin-top: 10px;
-		position: static;
-
-		.fyre-editor-container {
-			.fyre-editor-editable {
-				@include oCommentsBorderRadiusClear;
-				@include oCommentsBoxShadowClear;
-
-				background-color: oColorsGetPaletteColor('white');
-				border: 1px solid oColorsGetPaletteColor('black-10');
-				font-family: $o-comments-font-family;
-				font-size: 16px;
-				line-height: 16px;
-				padding: 8px;
-			}
-
-			.fyre-editor-editable.editable {
-				color: oColorsGetPaletteColor('black-80');
-			}
-
-			.fyre-editor-editable p {
-				line-height: 22px;
-				margin-bottom: 10px !important;
-			}
-
-			.fyre-editor-editable p *,
-			.fyre-editor-editable p .fyre-mention {
-				color: oColorsGetPaletteColor('black-80');
-				font-family: $o-comments-font-family;
-				font-size: 16px;
-			}
-
-			.fyre-editor-editable p a {
-				color: $o-comments-link-color;
-			}
-		}
-
-		.fyre-editor-toolbar {
-			.goog-toolbar {
-				> div {
-					@include oCommentsGradientClear;
-
-					background-color: oColorsGetPaletteColor('black-5');
-					border-bottom: 1px solid oColorsGetPaletteColor('black-10');
-					border-right: 1px solid oColorsGetPaletteColor('black-20');
-					font: normal 14px $o-comments-font-family;
-				}
-
-				> div.goog-toolbar-separator {
-					@include oCommentsBorderRadiusClear;
-
-					border-bottom: 1px solid oColorsGetPaletteColor('black-10');
-				}
-
-				> div.fyre-button-left .fyre-button-left-outer-box .fyre-button-left-inner-box {
-					@include oCommentsTextShadowClear;
-
-					color: $o-comments-link-color;
-				}
-
-				> div.fyre-button-left.fyre-format-button {
-					border-left: 1px solid oColorsGetPaletteColor('black-10');
-				}
-
-				> div.fyre-button-left:nth-child(2) {
-					@include oCommentsBorderRadiusClear;
-
-					border-bottom: 1px solid oColorsGetPaletteColor('black-10');
-				}
-
-				> div.fyre-button-right {
-					border-left: 1px solid oColorsGetPaletteColor('black-20');
-					border-right: 0;
-				}
-
-				> div.fyre-button-right.fyre-post-button {
-					@include oCommentsBorderRadiusClear;
-
-					border-right: 0;
-					background-color: #2c6d9c;
-					background-image: linear-gradient(#2c6d9c, #255b82);
-					filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#2c6d9c,  endColorstr=#255b82);
-				}
-
-				> div.fyre-button-right.fyre-post-button .fyre-button-right-outer-box {
-					padding: 0 10px;
-					border-bottom: 0;
-				}
-
-				> div.fyre-button-right.fyre-post-button .fyre-button-right-outer-box .fyre-button-right-inner-box {
-					@include oCommentsTextShadowClear;
-
-					color: oColorsGetPaletteColor('white');
-					font-weight: normal;
-				}
-
-				> div.fyre-button-right:last-child {
-					border-right: 1px solid oColorsGetPaletteColor('black-20');
-					border-bottom: 1px solid oColorsGetPaletteColor('black-20');
-				}
-
-				> div.fyre-button-left-hover,
-				> div.fyre-button-right-hover {
-					@include oCommentsGradientClear;
-
-					background-color: oColorsGetPaletteColor('black-10');
-					color: oColorsGetPaletteColor('black');
-				}
-
-				> div.fyre-button-left-active ,
-				> div.fyre-button-right-active {
-					@include oCommentsGradientClear;
-
-					background-color: oColorsGetPaletteColor('black-10');
-				}
-
-				> div.fyre-button-left .fyre-button-left-outer-box .fyre-button-left-inner-box:hover {
-					color: oColorsGetPaletteColor('black');
-				}
-
-				.fyre-raw-button {
-					display: none;
-				}
-
-				.fyre-mention-button {
-					display: none;
-					border-left: 1px solid oColorsGetPaletteColor('black-10');
-				}
-			}
-
-			.fyre-share-button {
-				color: $o-comments-link-color;
-
-				display: none;
-			}
-
-			.fyre-share-button.fyre-button-left-open ,
-			.fyre-share-button.fyre-button-right-open ,
-			.fyre-share-button.fyre-button-right-active {
-				background: oColorsGetPaletteColor('black-5');
-			}
-
-			.fyre-share-button.fyre-button-left-open:hover ,
-			.fyre-share-button.fyre-button-right-open:hover ,
-			.fyre-share-button.fyre-button-right-active:hover {
-				background: oColorsGetPaletteColor('black-10');
-			}
-
-			.fyre-share-container {
-				@include oCommentsBorderRadiusClear;
-
-				background-color: oColorsGetPaletteColor('black-5');
-				border: 1px solid oColorsGetPaletteColor('black-20');
-				width: auto;
-			}
-
-			.fyre-share-container>span {
-				background: none;
-			}
-
-			.fyre-share-container > span>a {
-				color: oColorsGetPaletteColor('black-80');
-				font-family: $o-comments-font-family;
-				padding: 8px 15px;
-			}
-
-			.fyre-share-container > span > a span {
-				background-image: none;
-			}
-
-			.fyre-share-container > span > a:hover {
-				color: $o-comments-link-color;
-				background-color: oColorsGetPaletteColor('black-10');
-			}
-		}
-
-
-		.fyre-editor-disabled {
-			@include oCommentsBorderRadiusClear;
-
-			background: oColorsGetPaletteColor('white');
-			border: 1px solid #b2b2b2;
-			color: oColorsGetPaletteColor('black-70');
-			font-family: $o-comments-font-family;
-			font-size: 15px;
-			margin-top: 20px;
-			float: left;
-			width: 100%;
-			height: auto;
-
-			.fyre-editor-locked {
-				@include oIconsGetIcon('lock', oColorsGetPaletteColor("black-70"), 20, $iconset-version: 1);
-
-				vertical-align: inherit;
-				margin-right: 0;
-			}
-		}
+		display: none;
 	}
 
 
