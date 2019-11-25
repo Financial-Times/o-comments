@@ -24,7 +24,7 @@
 	height: auto;
 	width: auto;
 
-	color: oColorsGetPaletteColor("paper");
+	color: oColorsByName("paper");
 	padding: 3px 10px;
 	font-size: 13px;
 	line-height: 15px;
@@ -40,7 +40,7 @@
 
 @mixin oCommentsOverlayClose {
 	background: none;
-	@include oOverlayClose; // sass-lint:disable-line mixins-before-declarations
+	@include oOverlayContentClose; // sass-lint:disable-line mixins-before-declarations
 	position: absolute;
 	margin: 0;
 }

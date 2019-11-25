@@ -5,7 +5,7 @@
 
 .o-comments.o-comments--lf-overrides.o-comments--comment-type-livecomments {
 	clear: both;
-	color: oColorsGetPaletteColor('black-80');
+	color: oColorsByName('black-80');
 	font-family: $o-comments-font-family;
 
 	.fyre {
@@ -15,7 +15,7 @@
 			color: $o-comments-link-color;
 
 			&:hover {
-				color: oColorsGetPaletteColor('black');
+				color: oColorsByName('black');
 			}
 		}
 
@@ -35,7 +35,7 @@
 		}
 
 		.fyre-stream-stats {
-			color: oColorsGetPaletteColor('black-80');
+			color: oColorsByName('black-80');
 			float: right;
 			margin: 0;
 
@@ -54,15 +54,15 @@
 		}
 
 		.fyre-mention {
-			color: oColorsGetPaletteColor('black-80');
+			color: oColorsByName('black-80');
 			cursor: text;
 		}
 
 		.fyre-stream-sort {
 			font: 16px/24px $o-comments-font-family;
-			border-bottom: 1px solid oColorsGetPaletteColor('black-10');
+			border-bottom: 1px solid oColorsByName('black-10');
 			padding: 10px 0;
-			color: oColorsGetPaletteColor('black') !important;
+			color: oColorsByName('black') !important;
 			margin: 20px 0 10px;
 
 			a {
@@ -90,7 +90,7 @@
 		}
 
 		.fyre-comment-stream {
-			color: oColorsGetPaletteColor('black-80');
+			color: oColorsByName('black-80');
 			font: 16px/22px MetricWeb, Helvetica, Arial, sans-serif;
 			margin: 0;
 		}
@@ -105,7 +105,7 @@
 				top: 0;
 				right: 0;
 
-				background-color: oColorsGetPaletteColor('crimson');
+				background-color: oColorsByName('crimson');
 				border-radius: 0;
 				color: white;
 				font-size: 14px;
@@ -120,23 +120,23 @@
 			.fyre-comment-deleted {
 				font-family: $o-comments-font-family;
 				font-size: 14px;
-				color: oColorsGetPaletteColor('black-70');
+				color: oColorsByName('black-70');
 
 				p {
 					font-style: italic;
-					color: oColorsGetPaletteColor('black-70');
+					color: oColorsByName('black-70');
 					padding-bottom: 10px;
 				}
 			}
 
 			.fyre-reply-more-toggle {
-				color: oColorsGetPaletteColor('white');
+				color: oColorsByName('white');
 				background: #406e9f;
 				margin-left: 50%;
 				border-radius: 3px;
 
 				.fyre-comment-collapse {
-					@include oIconsGetIcon('plus', oColorsGetPaletteColor('white'), 21, $iconset-version: 1);
+					@include oIconsContent('plus', oColorsByName('white'), $size: 21);
 					margin: -7px 3px;
 					vertical-align: inherit;
 				}
@@ -144,7 +144,7 @@
 		}
 
 		.fyre-comment-date {
-			color: oColorsGetPaletteColor('black-50');
+			color: oColorsByName('black-50');
 		}
 
 		.fyre-login-bar {
@@ -215,7 +215,7 @@
 			}
 
 			a.fyre-user-profile-link {
-				color: oColorsGetPaletteColor('black');
+				color: oColorsByName('black');
 				font-size: 16px;
 				padding: 0;
 				cursor: default;
@@ -223,7 +223,7 @@
 			}
 
 			a:hover {
-				color: oColorsGetPaletteColor('black');
+				color: oColorsByName('black');
 			}
 
 			.fyre-user-drop {
@@ -242,15 +242,15 @@
 				left: 0;
 				z-index: 1000;
 				border: 0;
-				border-top: 1px solid oColorsGetPaletteColor('black-30');
-				border-bottom: 1px solid oColorsGetPaletteColor('black-30');
+				border-top: 1px solid oColorsByName('black-30');
+				border-bottom: 1px solid oColorsByName('black-30');
 
 				li {
-					background: oColorsGetPaletteColor('white');
+					background: oColorsByName('white');
 					white-space: nowrap;
 
-					border-left: 1px solid oColorsGetPaletteColor('black-30');
-					border-right: 1px solid oColorsGetPaletteColor('black-30');
+					border-left: 1px solid oColorsByName('black-30');
+					border-right: 1px solid oColorsByName('black-30');
 				}
 			}
 
@@ -311,7 +311,7 @@
 		}
 
 		a.fyre-comment-username {
-			color: oColorsGetPaletteColor('black-80');
+			color: oColorsByName('black-80');
 			font-weight: 600;
 			margin-left: 0;
 
@@ -333,7 +333,7 @@
 			}
 
 			> div.fyre-comment-divider {
-				background: oColorsGetPaletteColor('black-10');
+				background: oColorsByName('black-10');
 			}
 		}
 
@@ -483,7 +483,7 @@
 		.fyre-comment-source,
 		.fyre-twitter-footer a,
 		.fyre-comment-edit {
-			color: oColorsGetPaletteColor('black-50');
+			color: oColorsByName('black-50');
 		}
 
 
@@ -499,14 +499,14 @@
 		.fyre-comment-author-tag,
 		.fyre-comment-tag.fyre-featured {
 			margin: 0 10px;
-			background: oColorsGetPaletteColor('black-30');
+			background: oColorsByName('black-30');
 		}
 		.fyre-moderator {
 			display: none;
 		}
 
 		.fyre-comment-author-tag[data-fyre-author-tag="FT"] {
-			background: oColorsGetPaletteColor('claret');
+			background: oColorsByName('claret');
 		}
 
 		.fyre-comment-premod {
@@ -521,7 +521,7 @@
 
 			.fyre-pending {
 				display: block;
-				background: oColorsGetPaletteColor('mandarin');
+				background: oColorsByName('mandarin');
 			}
 
 			.fyre-mod-deny,
@@ -549,7 +549,7 @@
 				font-size: 14px;
 				line-height: 15px;
 				font-weight: 600;
-				color: oColorsGetPaletteColor('black-70');
+				color: oColorsByName('black-70');
 				display: block;
 			}
 
@@ -564,7 +564,7 @@
 			.fyre-featured-text {
 				display: none;
 
-				color: oColorsGetPaletteColor('paper');
+				color: oColorsByName('paper');
 				font-size: 15px;
 				line-height: 16px;
 				font-family: $o-comments-font-family;
@@ -606,8 +606,8 @@
 						width: 200px;
 						height: 36px;
 
-						background: oColorsGetPaletteColor('white');
-						border: 1px solid oColorsGetPaletteColor('black-10');
+						background: oColorsByName('white');
+						border: 1px solid oColorsByName('black-10');
 
 						.fyre-notifier-avatar-container {
 							display: none;
@@ -619,7 +619,7 @@
 							@include oCommentsBoxShadowClear;
 
 							width: 200px;
-							background: oColorsGetPaletteColor('white');
+							background: oColorsByName('white');
 
 
 							.fyre-notifier-message {
@@ -627,7 +627,7 @@
 								font-family: MetricWeb, Helvetica,  Arial,  sans-serif;
 								font-size: 15px;
 								line-height: 26px;
-								color: oColorsGetPaletteColor('black-70');
+								color: oColorsByName('black-70');
 							}
 						}
 					}
@@ -639,10 +639,10 @@
 				@include oCommentsBorderRadiusClear;
 				@include oCommentsBoxShadowClear;
 
-				background: oColorsGetPaletteColor('white');
+				background: oColorsByName('white');
 				padding: 0;
 				bottom: 0;
-				border: 1px solid oColorsGetPaletteColor('black-10');
+				border: 1px solid oColorsByName('black-10');
 				height: 34px;
 
 
@@ -663,7 +663,7 @@
 						font-family: $o-comments-font-family;
 						line-height: 21px;
 						border: 0;
-						background: oColorsGetPaletteColor('crimson');
+						background: oColorsByName('crimson');
 						margin: 6px;
 						height: 20px;
 						padding: 0px 7px;
@@ -686,10 +686,10 @@
 
 
 		.fyre-featured-content-wrapper {
-			color: oColorsGetPaletteColor('black-70');
+			color: oColorsByName('black-70');
 			font: 16px/22px MetricWeb, Helvetica, Arial, sans-serif;
 			margin: 0 0 20px;
-			background: oColorsGetPaletteColor('black-5');
+			background: oColorsByName('black-5');
 
 			.fyre-featured-body {
 				margin-bottom: 23px;
@@ -722,7 +722,7 @@
 			}
 
 			.fyre-featured-authored-by {
-				color: oColorsGetPaletteColor('black-70');
+				color: oColorsByName('black-70');
 				font: 16px/22px MetricWeb, Helvetica, Arial, sans-serif;
 				margin: 0;
 				font-weight: 600;
@@ -745,7 +745,7 @@
 				background: #e7dece;
 
 				.fyre-featured-title {
-					color: oColorsGetPaletteColor('black-70');
+					color: oColorsByName('black-70');
 					padding: 0;
 					text-transform: uppercase;
 					font-size: 14px;
@@ -777,7 +777,7 @@
 			}
 
 			.fyre-comment-divider {
-				background: oColorsGetPaletteColor('black-20');
+				background: oColorsByName('black-20');
 				margin: 23px 0;
 			}
 		}
@@ -805,11 +805,11 @@
 
 				border: 0;
 				background: #406e9f;
-				color: oColorsGetPaletteColor('white');
+				color: oColorsByName('white');
 				height: 22px;
 
 				.fyre-text {
-					color: oColorsGetPaletteColor('white');
+					color: oColorsByName('white');
 					line-height: 22px;
 				}
 
@@ -822,7 +822,7 @@
 		.fyre-stream-content-not-found {
 			font-family: $o-comments-font-family;
 			font-size: 16px;
-			color: oColorsGetPaletteColor('black-70') !important;
+			color: oColorsByName('black-70') !important;
 
 			a.fyre-stream-refresh {
 				font-family: $o-comments-font-family;
@@ -855,7 +855,7 @@
 
 		.fyre-mobile-menu {
 			border: 4px solid #d9cdbf;
-			background: oColorsGetPaletteColor('white');
+			background: oColorsByName('white');
 
 			.fyre-flag-menu-item {
 				@include oCommentsGradientClear;
@@ -891,18 +891,18 @@
 		@include oCommentsBorderRadiusClear;
 
 		display: none; // for now, could be enabled later, that's why there are styles for them
-		border: 1px solid oColorsGetPaletteColor('black-5');
+		border: 1px solid oColorsByName('black-5');
 		left: 0;
 		margin-left: 0;
-		color: oColorsGetPaletteColor('black-70');
+		color: oColorsByName('black-70');
 
 		> .fyre-provider-connections {
-			border-color: oColorsGetPaletteColor('black-5');
+			border-color: oColorsByName('black-5');
 			display: none;
 		}
 
 		.fyre-mention-item-display-name {
-			color: oColorsGetPaletteColor('black-70');
+			color: oColorsByName('black-70');
 		}
 
 		> .fyre-provider-connections > a.fyre-provider-facebook_connect_url,
@@ -925,8 +925,8 @@
 		@include oCommentsBorderRadiusClear;
 		@include oCommentsBoxShadowClear;
 
-		background-color: oColorsGetPaletteColor('crimson');
-		border: 1px solid oColorsGetPaletteColor('crimson');
+		background-color: oColorsByName('crimson');
+		border: 1px solid oColorsByName('crimson');
 		padding: 7px 25px 7px 7px;
 		line-height: 14px;
 
@@ -951,14 +951,14 @@
 	.comment-header {
 		margin: 0 0 16px;
 		padding: 3px 0;
-		border-top: 4px solid oColorsGetPaletteColor('black-30');
-		border-bottom: 1px dotted oColorsGetPaletteColor('black-30');
+		border-top: 4px solid oColorsByName('black-30');
+		border-bottom: 1px dotted oColorsByName('black-30');
 		font-family: MetricWeb, sans-serif;
 		font-weight: 600;
 		text-transform: uppercase;
 		font-size: 14px;
 		line-height: 20px;
-		color: oColorsGetPaletteColor('black');
+		color: oColorsByName('black');
 	}
 
 
@@ -1137,8 +1137,8 @@ body {
 		@include oCommentsBorderRadiusClear;
 		@include oCommentsBoxShadowClear;
 
-		background-color: oColorsGetPaletteColor('white');
-		color: oColorsGetPaletteColor('black-50');
+		background-color: oColorsByName('white');
+		color: oColorsByName('black-50');
 		font: 14px/16px MetricWeb, Arial, Helvetica, sans-serif;
 	}
 
@@ -1153,14 +1153,14 @@ body {
 		@include oCommentsTextShadowClear;
 
 		background-color: $o-comments-link-color;
-		color: oColorsGetPaletteColor('white');
+		color: oColorsByName('white');
 	}
 
 	.fyre-hovercard-button:hover {
 		@include oCommentsGradientClear;
 
 		background-color: #2c6d9c;
-		color: oColorsGetPaletteColor('white');
+		color: oColorsByName('white');
 	}
 
 
@@ -1169,9 +1169,9 @@ body {
 		@include oCommentsTextShadowClear;
 		@include oCommentsBoxShadowClear;
 
-		background-color: oColorsGetPaletteColor('white');
+		background-color: oColorsByName('white');
 		padding: 2px;
-		color: oColorsGetPaletteColor('black-50');
+		color: oColorsByName('black-50');
 		font-size: 15px;
 		font-family: $o-comments-font-family;
 
@@ -1190,7 +1190,7 @@ body {
 		border: 1px solid #ccc1b7;
 		box-shadow: 0 1px 4px rgba(77, 72, 69, 0.15), 0 8px 14px rgba(77, 72, 69, 0.2);
 		outline: none;
-		background-color: oColorsGetPaletteColor('white');
+		background-color: oColorsByName('white');
 
 		.fyre-modal-shares {
 			display: none;
@@ -1202,7 +1202,7 @@ body {
 			padding-left: 14px;
 			padding-top: 9px;
 			border-bottom: 0;
-			color: oColorsGetPaletteColor('black-80');
+			color: oColorsByName('black-80');
 			font-family: $o-comments-font-family;
 			font-size: 18px;
 			line-height: 20px;
@@ -1220,7 +1220,7 @@ body {
 
 		.fyre-modal-subtitle,
 		.fyre-modal-subtitle-u {
-			color: oColorsGetPaletteColor('black');
+			color: oColorsByName('black');
 			font-size: 15px;
 			font-family: $o-comments-font-family;
 			font-weight: normal;
@@ -1255,7 +1255,7 @@ body {
 			font-family: $o-comments-font-family;
 			font-size: 16px;
 			line-height: 16px;
-			color: oColorsGetPaletteColor('black-50');
+			color: oColorsByName('black-50');
 			border-color: #b3b0a8;
 			padding: 4px;
 		}
@@ -1283,7 +1283,7 @@ body {
 				outline: none;
 				background: $o-comments-link-color;
 				border: 0;
-				color: oColorsGetPaletteColor('white');
+				color: oColorsByName('white');
 				font-family: $o-comments-font-family;
 				font-weight: normal;
 			}

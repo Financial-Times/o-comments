@@ -5,10 +5,13 @@
 
 
 @if $o-comments-include-fonts == true {
-	// @font-face declarations for all Benton Sans weights
-	@include oFontsInclude(MetricWeb, light);
-	@include oFontsInclude(MetricWeb, regular);
-	@include oFontsInclude(MetricWeb, bold);
+	@include oFonts($opts: (
+		'metric': (
+	        ('weight': 'light', 'style': 'normal'),
+	        ('weight': 'regular', 'style': 'normal'),
+	        ('weight': 'bold', 'style': 'normal'),
+	    )
+	));
 }
 
 
