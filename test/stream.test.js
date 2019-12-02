@@ -9,6 +9,7 @@ import login from './methods/stream/login';
 import authenticateUser from './methods/stream/authenticate-user';
 import publishEvent from './methods/stream/publish-event';
 import renderSignedInMessage from './methods/stream/render-signed-in-message';
+import displayNamePrompt from './methods/stream/display-name-prompt';
 
 describe("Stream", () => {
 	it("is defined", () => {
@@ -21,4 +22,5 @@ describe("Stream", () => {
 	describe('.authenticateUser', authenticateUser);
 	describe('.publishEvent', publishEvent);
 	describe('.renderSignedInMessage', renderSignedInMessage);
+	describe('.displayNamePrompt', displayNamePrompt);
 });
