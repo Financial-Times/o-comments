@@ -22,5 +22,5 @@ describe("Stream", () => {
 	describe('.authenticateUser', authenticateUser);
 	describe('.publishEvent', publishEvent);
 	describe('.renderSignedInMessage', renderSignedInMessage);
-	describe('.displayNamePrompt', displayNamePrompt)
+	describe('.displayNamePrompt', displayNamePrompt);
 });
