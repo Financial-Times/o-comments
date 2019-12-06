@@ -111,7 +111,7 @@ class Stream {
 	displayNamePrompt ({purgeCacheAfterCompletion = false} = {}) {
 		const overlay = displayName.prompt();
 
-		document.addEventListener('oOverlay.ready', (event) => {
+		const onOverlayReady = (event) => {
 			const sourceOverlay = event.srcElement;
 			const displayNameForm = sourceOverlay.querySelector('#o-comments-displayname-form');
 
@@ -130,17 +130,15 @@ class Stream {
 						});
 				});
 			}
-		});
+		};
+		document.addEventListener('oOverlay.ready', onOverlayReady);
 
-		document.addEventListener('oOverlay.close', (event) => {
-			const sourceOverlay = event.srcElement;
-			const displayNameForm = sourceOverlay.querySelector('#o-comments-displayname-form');
-
-			if (displayNameForm) {
-				overlay.destroy();
-			}
-
-		});
+		const onLayerClose = () => {
+			overlay.context.removeEventListener('oLayers.close', onLayerClose);
+			document.removeEventListener('oOverlay.ready', onOverlayReady);
+			overlay.destroy();
+		};
+		overlay.context.addEventListener('oLayers.close', onLayerClose);
 	}
 
 	/**
