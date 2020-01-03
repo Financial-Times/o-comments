@@ -1,4 +1,4 @@
-import Delegate from 'ftdomdelegate';
+const Delegate = require('ftdomdelegate').default;
 const oCommentUtilities = require('o-comment-utilities');
 const oCommentUi = require('o-comment-ui');
 const envConfig = require('./config.js');
