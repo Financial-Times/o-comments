@@ -10,7 +10,7 @@
  * This is not a normal use case of Origami styles.
  */
 
-// sass-lint:disable no-qualifying-elements nesting-depth no-important class-name-format
+// stylelint-disable selector-class-pattern, declaration-no-important 
 @import 'o-buttons/main';
 @import 'o-colors/main';
 @import 'o-typography/main';
