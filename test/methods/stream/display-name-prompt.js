@@ -1,11 +1,11 @@
-import proclaim from 'proclaim';
-import sinon from 'sinon/pkg/sinon';
+/* eslint-env mocha */
+/* global proclaim sinon */
 import * as fixtures from '../../helpers/fixtures';
 import Stream from '../../../src/js/stream';
 
 const sandbox = sinon.createSandbox();
 
-module.exports = () => {
+describe('display-name-prompt', function () {
 	beforeEach(() => {
 		fixtures.streamMarkup();
 	});
@@ -25,4 +25,4 @@ module.exports = () => {
 			proclaim.isTrue(Boolean(displayNameForm));
 		});
 	});
-};
+});

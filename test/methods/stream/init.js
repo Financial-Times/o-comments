@@ -1,5 +1,5 @@
-import proclaim from 'proclaim';
-import sinon from 'sinon/pkg/sinon';
+/* eslint-env mocha */
+/* global proclaim sinon */
 import * as fixtures from '../../helpers/fixtures';
 import Stream from '../../../src/js/stream';
 import * as displayName from '../../../src/js/utils/display-name';
@@ -7,7 +7,7 @@ import * as displayName from '../../../src/js/utils/display-name';
 const sandbox = sinon.createSandbox();
 let validationStub;
 
-module.exports = () => {
+describe('init', function () {
 	beforeEach(() => {
 		fixtures.streamMarkup();
 		validationStub = sandbox.stub(displayName, 'validation');
@@ -104,5 +104,5 @@ module.exports = () => {
 				done();
 			});
 	});
-};
+});
 

@@ -1,5 +1,5 @@
-import proclaim from 'proclaim';
-import sinon from 'sinon/pkg/sinon';
+/* eslint-env mocha */
+/* global proclaim sinon */
 import fetchMock from 'fetch-mock';
 import * as auth from '../../src/js/utils/auth';
 
