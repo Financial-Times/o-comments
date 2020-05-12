@@ -4,6 +4,8 @@ import * as fixtures from '../../helpers/fixtures';
 import Stream from '../../../src/js/stream';
 import * as auth from '../../../src/js/utils/auth';
 
+let fetchJWTStub;
+
 export default function authenticateUser () {
 	it("is a function", () => {
 		proclaim.isFunction(new Stream().authenticateUser);
@@ -12,6 +14,19 @@ export default function authenticateUser () {
 	describe("comments api options", () => {
 		beforeEach(() => {
 			fixtures.streamMarkup();
+			/*
+			 * origami-build-tools version 10 compiles exports to getters for
+			 * compatibility with as many browsers as possible in addition to the
+			 * ecmascript specification. A slight divergence from the
+			 * specification is that these getters are configurable, so we can
+			 * override it here and stub the validation function.
+			 *
+			 * This should be removed if a future version of origami-build-tools
+			 * includes a bundler that behaves differently.
+			 */
+			fetchJWTStub = sinon.stub();
+			sinon.stub(auth, 'fetchJsonWebToken').get(() => fetchJWTStub);
+			fetchJWTStub.rejects();
 		});
 
 		afterEach(() => {
@@ -20,7 +35,7 @@ export default function authenticateUser () {
 		});
 
 		it("displayName option is passed to fetchJsonWebToken", () => {
-			const fetchJWTStub = sinon.stub(auth, 'fetchJsonWebToken').resolves({});
+			fetchJWTStub.resolves({});
 
 			const stream = new Stream();
 
@@ -33,7 +48,7 @@ export default function authenticateUser () {
 		});
 
 		it("displayName option is not used if undefined", () => {
-			const fetchJWTStub = sinon.stub(auth, 'fetchJsonWebToken').resolves({});
+			fetchJWTStub.resolves({});
 
 			const stream = new Stream();
 
@@ -46,7 +61,7 @@ export default function authenticateUser () {
 		});
 
 		it("staging option is passed to fetchJsonWebToken", () => {
-			const fetchJWTStub = sinon.stub(auth, 'fetchJsonWebToken').resolves({});
+			fetchJWTStub.resolves({});
 
 			const stream = new Stream(null, {
 				useStagingEnvironment: true
@@ -65,6 +80,8 @@ export default function authenticateUser () {
 	describe("fetchJsonWebToken returns a token", () => {
 		beforeEach(() => {
 			fixtures.streamMarkup();
+			fetchJWTStub = sinon.stub();
+			sinon.stub(auth, 'fetchJsonWebToken').get(() => fetchJWTStub);
 		});
 
 		afterEach(() => {
@@ -73,7 +90,7 @@ export default function authenticateUser () {
 		});
 
 		it("sets this.authenticationToken to the token", () => {
-			sinon.stub(auth, 'fetchJsonWebToken').resolves({
+			fetchJWTStub.resolves({
 				token: 'fake-jwt'
 			});
 
@@ -91,6 +108,8 @@ export default function authenticateUser () {
 	describe("fetchJsonWebToken returns a displayName", () => {
 		beforeEach(() => {
 			fixtures.streamMarkup();
+			fetchJWTStub = sinon.stub();
+			sinon.stub(auth, 'fetchJsonWebToken').get(() => fetchJWTStub);
 		});
 
 		afterEach(() => {
@@ -99,7 +118,7 @@ export default function authenticateUser () {
 		});
 
 		it("sets this.displayName to the display name", () => {
-			sinon.stub(auth, 'fetchJsonWebToken').resolves({
+			fetchJWTStub.resolves({
 				displayName: 'fake-display-name'
 			});
 
@@ -117,6 +136,8 @@ export default function authenticateUser () {
 	describe("fetchJsonWebToken returns userHasValidSession", () => {
 		beforeEach(() => {
 			fixtures.streamMarkup();
+			fetchJWTStub = sinon.stub();
+			sinon.stub(auth, 'fetchJsonWebToken').get(() => fetchJWTStub);
 		});
 
 		afterEach(() => {
@@ -126,7 +147,7 @@ export default function authenticateUser () {
 
 		describe("userHasValidSession is true", () => {
 			it("sets this.userHasValidSession to true", () => {
-				sinon.stub(auth, 'fetchJsonWebToken').resolves({
+				fetchJWTStub.resolves({
 					userHasValidSession: true
 				});
 
@@ -141,7 +162,7 @@ export default function authenticateUser () {
 
 		describe("userHasValidSession is false", () => {
 			it("sets this.userHasValidSession to false", () => {
-				sinon.stub(auth, 'fetchJsonWebToken').resolves({
+				fetchJWTStub.resolves({
 					userHasValidSession: false
 				});
 
