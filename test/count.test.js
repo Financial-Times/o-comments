@@ -4,7 +4,7 @@ import * as fixtures from './helpers/fixtures';
 import fetchMock from 'fetch-mock';
 import Count from '../src/js/count';
 
-sinon.proclaim.expose(proclaim, {
+sinon.assert.expose(proclaim, {
 	includeFail: false,
 	prefix: ''
 });
