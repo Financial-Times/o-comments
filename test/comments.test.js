@@ -6,7 +6,7 @@ import Comments from '../src/js/comments';
 import Count from '../src/js/count';
 import Stream from '../src/js/stream';
 
-sinon.proclaim.expose(proclaim, {
+sinon.assert.expose(proclaim, {
 	includeFail: false,
 	prefix: ''
 });
@@ -199,4 +199,3 @@ describe("Comments", () => {
 		});
 	});
 });
-
