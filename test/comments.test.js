@@ -6,11 +6,6 @@ import Comments from '../src/js/comments';
 import Count from '../src/js/count';
 import Stream from '../src/js/stream';
 
-sinon.assert.expose(proclaim, {
-	includeFail: false,
-	prefix: ''
-});
-
 describe("Comments", () => {
 	it("is defined", () => {
 		proclaim.isFunction(Comments);
@@ -20,17 +15,16 @@ describe("Comments", () => {
 	describe("new Comments(rootEl, opts)", () => {
 		describe(".options", () => {
 			let mockDataAttributeOptions;
-			let sandbox;
 			let mockRootEl;
 
 			beforeEach(() => {
 				mockDataAttributeOptions = {
 					isMockDataAttributeOptions: true
 				};
-				sandbox = sinon.createSandbox();
-				sandbox.stub(Stream.prototype, 'init');
-				sandbox.stub(Comments, 'getDataAttributes').returns(mockDataAttributeOptions);
-				sandbox.stub(Count.prototype, 'renderCount').callsFake(() => true);
+
+				sinon.stub(Stream.prototype, 'init');
+				sinon.stub(Comments, 'getDataAttributes').returns(mockDataAttributeOptions);
+				sinon.stub(Count.prototype, 'renderCount').callsFake(() => true);
 
 				fixtures.countMarkup();
 
@@ -40,30 +34,28 @@ describe("Comments", () => {
 
 			afterEach(() => {
 				fixtures.reset();
-				sandbox.restore();
+				sinon.restore();
 			});
 
 			it("fetches options set via HTML data attributes", () => {
-				proclaim.calledOnce(Comments.getDataAttributes);
-				proclaim.calledWithExactly(Comments.getDataAttributes, mockRootEl);
+				sinon.assert.calledOnce(Comments.getDataAttributes);
+				sinon.assert.calledWithExactly(Comments.getDataAttributes, mockRootEl);
 			});
 		});
 	});
 
 	describe("when 'data-o-comments-count' is set to true", () => {
 		let comments;
-		let sandbox;
 
 		beforeEach(() => {
 			fixtures.countMarkup();
-			sandbox = sinon.createSandbox();
-			sandbox.stub(Count.prototype, 'renderCount');
+			sinon.stub(Count.prototype, 'renderCount');
 			const mockRootEl = document.querySelector('[data-o-comments-article-id="id"]');
 			comments = new Comments(mockRootEl);
 		});
 
 		afterEach(() => {
-			sandbox.restore();
+			sinon.restore();
 			fixtures.reset();
 		});
 
@@ -78,19 +70,17 @@ describe("Comments", () => {
 
 	describe("when 'data-o-comments-count' is set to false", () => {
 		let comments;
-		let sandbox;
 
 		beforeEach(() => {
 			fixtures.streamMarkup();
-			sandbox = sinon.createSandbox();
-			sandbox.stub(Stream.prototype, 'init');
+			sinon.stub(Stream.prototype, 'init');
 
 			const mockRootEl = document.querySelector('[data-o-comments-article-id="id"]');
 			comments = new Comments(mockRootEl);
 		});
 
 		afterEach(() => {
-			sandbox.restore();
+			sinon.restore();
 			fixtures.reset();
 		});
 
@@ -106,19 +96,17 @@ describe("Comments", () => {
 
 	describe("when 'data-o-comments-use-staging-environment' is set to true", () => {
 		let comments;
-		let sandbox;
 
 		beforeEach(() => {
 			fixtures.useStagingEnvironmentMarkup();
-			sandbox = sinon.createSandbox();
-			sandbox.stub(Count.prototype, 'renderCount');
+			sinon.stub(Count.prototype, 'renderCount');
 
 			const mockRootEl = document.querySelector('[data-o-comments-article-id="id"]');
 			comments = new Comments(mockRootEl);
 		});
 
 		afterEach(() => {
-			sandbox.restore();
+			sinon.restore();
 			fixtures.reset();
 		});
 
@@ -129,19 +117,17 @@ describe("Comments", () => {
 
 	describe("when 'data-o-comments-use-staging-environment' is set to false", () => {
 		let comments;
-		let sandbox;
 
 		beforeEach(() => {
 			fixtures.doNotUseStagingEnvironmentMarkup();
-			sandbox = sinon.createSandbox();
-			sandbox.stub(Count.prototype, 'renderCount');
+			sinon.stub(Count.prototype, 'renderCount');
 
 			const mockRootEl = document.querySelector('[data-o-comments-article-id="id"]');
 			comments = new Comments(mockRootEl);
 		});
 
 		afterEach(() => {
-			sandbox.restore();
+			sinon.restore();
 			fixtures.reset();
 		});
 

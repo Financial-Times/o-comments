@@ -3,23 +3,21 @@
 import * as fixtures from '../../helpers/fixtures';
 import Stream from '../../../src/js/stream';
 
-const sandbox = sinon.createSandbox();
-
-describe('publish-event', function () {
+export default function publishEvent () {
 	beforeEach(() => {
 		fixtures.streamMarkup();
 	});
 
 	afterEach(() => {
 		fixtures.reset();
-		sandbox.restore();
+		sinon.restore();
 	});
 
 	describe("valid event", () => {
 		describe("loginPrompt event", () => {
 			describe("this.userHasValidSession is truthy", () => {
 				it("calls displayNamePrompt", () => {
-					const displayNamePromptStub = sandbox.stub();
+					const displayNamePromptStub = sinon.stub();
 
 					const stream = new Stream();
 					stream.userHasValidSession = true;
@@ -32,7 +30,7 @@ describe('publish-event', function () {
 
 			describe("this.userHasValidSession is falsy", () => {
 				it("doesn't calls displayNamePrompt", () => {
-					const displayNamePromptStub = sandbox.stub();
+					const displayNamePromptStub = sinon.stub();
 
 					const stream = new Stream();
 					stream.userHasValidSession = false;
@@ -113,7 +111,7 @@ describe('publish-event', function () {
 		});
 
 		it("only maps 1 event every 100 milliseconds", (done) => {
-			const listenerStub = sandbox.stub();
+			const listenerStub = sinon.stub();
 			document.addEventListener('oComments.ready', listenerStub);
 
 			const stream = new Stream();
@@ -196,7 +194,7 @@ describe('publish-event', function () {
 
 
 		it("only maps 1 event every 100 milliseconds", (done) => {
-			const listenerStub = sandbox.stub();
+			const listenerStub = sinon.stub();
 			const listener = (event) => {
 				if (event.detail.category === 'comment' && event.detail.action === 'post-error') {
 					listenerStub();
@@ -224,4 +222,4 @@ describe('publish-event', function () {
 			}, 120);
 		});
 	});
-});
+}

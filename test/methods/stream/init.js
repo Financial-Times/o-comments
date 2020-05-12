@@ -4,105 +4,96 @@ import * as fixtures from '../../helpers/fixtures';
 import Stream from '../../../src/js/stream';
 import * as displayName from '../../../src/js/utils/display-name';
 
-const sandbox = sinon.createSandbox();
-let validationStub;
+export default function init () {
+	let validationStub;
 
-describe('init', function () {
 	beforeEach(() => {
 		fixtures.streamMarkup();
-		validationStub = sandbox.stub(displayName, 'validation');
+		validationStub = sinon.stub(displayName, 'validation');
 		validationStub.rejects();
 	});
 
 	afterEach(() => {
 		fixtures.reset();
-		sandbox.restore();
+		sinon.restore();
 	});
 
-	it("calls .renderComments", (done) => {
+	it("calls .renderComments", () => {
 		const mockStreamEl = document.querySelector('[data-o-comments-article-id="id"]');
 		const stream = new Stream(mockStreamEl);
-		const renderStub = sandbox.stub();
-		const authStub = sandbox.stub();
+		const renderStub = sinon.stub();
+		const authStub = sinon.stub();
 		stream.authenticateUser = authStub;
 		stream.renderComments = renderStub;
 
-		stream.init()
+		return stream.init()
 			.then(() => {
 				proclaim.isTrue(renderStub.calledOnce);
-				done();
 			});
 	});
 
-	it("calls .authenticateUser", (done) => {
+	it("calls .authenticateUser", () => {
 		const mockStreamEl = document.querySelector('[data-o-comments-article-id="id"]');
 		const stream = new Stream(mockStreamEl);
-		const renderStub = sandbox.stub();
-		const authStub = sandbox.stub();
+		const renderStub = sinon.stub();
+		const authStub = sinon.stub();
 		stream.authenticateUser = authStub;
 		stream.renderComments = renderStub;
 
-		stream.init()
+		return stream.init()
 			.then(() => {
 				proclaim.isTrue(authStub.calledOnce);
-				done();
 			});
 
 	});
 
-	it("calls .authenticateUser with display name", (done) => {
+	it("calls .authenticateUser with display name", () => {
 		const mockStreamEl = document.querySelector('[data-o-comments-article-id="id"]');
 		const stream = new Stream(mockStreamEl, {
 			displayName: 'test-name'
 		});
-		const renderStub = sandbox.stub();
-		const authStub = sandbox.stub();
+		const renderStub = sinon.stub();
+		const authStub = sinon.stub();
 		stream.authenticateUser = authStub;
 		stream.renderComments = renderStub;
 
 		validationStub.resolves('test-name');
 
-		stream.init()
+		return stream.init()
 			.then(() => {
 				proclaim.isTrue(authStub.calledOnce);
-				proclaim.isTrue(authStub.calledWith('test-name'));
-
-				done();
+				proclaim.equal('test-name', authStub.args[0][0]);
 			});
 
 	});
 
-	it("calls .authenticateUser with display name as undefined", (done) => {
+	it("calls .authenticateUser with display name as undefined", () => {
 		const mockStreamEl = document.querySelector('[data-o-comments-article-id="id"]');
 		const stream = new Stream(mockStreamEl);
-		const renderStub = sandbox.stub();
-		const authStub = sandbox.stub();
+		const renderStub = sinon.stub();
+		const authStub = sinon.stub();
 		stream.authenticateUser = authStub;
 		stream.renderComments = renderStub;
 
-		stream.init()
+		return stream.init()
 			.then(() => {
 				proclaim.isTrue(authStub.calledOnce);
 				proclaim.isTrue(authStub.calledWith(undefined));
-
-				done();
 			});
 
 	});
 
-	it("calls .login", (done) => {
-		sandbox.stub(Stream.prototype, 'renderComments').resolves();
-		sandbox.stub(Stream.prototype, 'authenticateUser').resolves();
+	it("calls .login", () => {
+		sinon.stub(Stream.prototype, 'renderComments').resolves();
+		sinon.stub(Stream.prototype, 'authenticateUser').resolves();
 		const mockStreamEl = document.querySelector('[data-o-comments-article-id="id"]');
 		const stream = new Stream(mockStreamEl);
-		const loginStub = sandbox.stub();
+		const loginStub = sinon.stub();
 		stream.login = loginStub;
 
-		stream.init()
+		return stream.init()
 			.then(() => {
 				proclaim.isTrue(loginStub.calledOnce);
-				done();
 			});
 	});
-});
-
+}

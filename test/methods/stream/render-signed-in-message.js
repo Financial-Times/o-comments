@@ -3,7 +3,7 @@
 import * as fixtures from '../../helpers/fixtures';
 import Stream from '../../../src/js/stream';
 
-describe('render-signed-in-message', function () {
+export default function renderSignedInMessage () {
 	beforeEach(() => {
 		fixtures.streamMarkup();
 	});
@@ -45,4 +45,4 @@ describe('render-signed-in-message', function () {
 			proclaim.equal(containerEls.length, 1);
 		});
 	});
-});
+}

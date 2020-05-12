@@ -4,16 +4,15 @@ import fetchMock from 'fetch-mock';
 import * as fixtures from '../../helpers/fixtures';
 import Stream from '../../../src/js/stream';
 
-const sandbox = sinon.createSandbox();
 
-describe('get-json-web-token', function () {
+export default function getJsonWebToken () {
 	beforeEach(() => {
 		fixtures.streamMarkup();
 	});
 
 	afterEach(() => {
 		fixtures.reset();
-		sandbox.restore();
+		sinon.restore();
 	});
 
 	it("is a function", () => {
@@ -156,5 +155,4 @@ describe('get-json-web-token', function () {
 				.then(result => proclaim.isFalse(result.userIsSignedIn));
 		});
 	});
-});
-
+}

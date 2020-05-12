@@ -3,7 +3,7 @@
 import * as fixtures from '../../helpers/fixtures';
 import Stream from '../../../src/js/stream';
 
-describe('render-comments', function () {
+export default function renderComments () {
 	beforeEach(() => {
 		fixtures.streamMarkup();
 	});
@@ -33,4 +33,4 @@ describe('render-comments', function () {
 
 		proclaim.isTrue(Boolean(scriptTag));
 	});
-});
+}

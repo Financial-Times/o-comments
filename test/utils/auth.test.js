@@ -3,11 +3,9 @@
 import fetchMock from 'fetch-mock';
 import * as auth from '../../src/js/utils/auth';
 
-const sandbox = sinon.createSandbox();
-
 describe('Fetch JSON web token', () => {
 	afterEach(() => {
-		sandbox.restore();
+		sinon.restore();
 	});
 
 	it("is a function", () => {

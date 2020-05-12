@@ -3,16 +3,14 @@
 import * as fixtures from '../../helpers/fixtures';
 import Stream from '../../../src/js/stream';
 
-const sandbox = sinon.createSandbox();
-
-describe('display-name-prompt', function () {
+export default function displayNamePrompt () {
 	beforeEach(() => {
 		fixtures.streamMarkup();
 	});
 
 	afterEach(() => {
 		fixtures.reset();
-		sandbox.restore();
+		sinon.restore();
 	});
 
 	it("renders the display name prompt on the page", () => {
@@ -25,4 +23,4 @@ describe('display-name-prompt', function () {
 			proclaim.isTrue(Boolean(displayNameForm));
 		});
 	});
-});
+}
