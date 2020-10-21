@@ -7,7 +7,7 @@
 	],
 	"origamiType": "module",
 	"origamiCategory": "components",
-	"origamiVersion": 1,
+	"origamiVersion": 2,
 	"support": "https://github.com/Financial-Times/o-comments/issues",
 	"supportContact": {
 		"slack": "financialtimes/content-innovation",
