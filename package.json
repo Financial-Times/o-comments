@@ -10,13 +10,13 @@
     },
     "dependencies": {},
     "peerDependencies": {
-        "@financial-times/o-buttons": "^6.0.2",
-        "@financial-times/o-colors": "^5.0.2",
-        "@financial-times/o-editorial-typography": "^1.0.0",
-        "@financial-times/o-forms": "^8.0.0",
-        "@financial-times/o-overlay": "^3.0.0",
-        "@financial-times/o-spacing": "^2.0.0",
-        "@financial-times/o-typography": "^6.1.0"
+        "@financial-times/o-buttons": "^100.0.0-3",
+        "@financial-times/o-colors": "^100.0.0-3",
+        "@financial-times/o-editorial-typography": "^100.0.0-3",
+        "@financial-times/o-forms": "^100.0.0-3",
+        "@financial-times/o-overlay": "^100.0.0-3",
+        "@financial-times/o-spacing": "^100.0.0-3",
+        "@financial-times/o-typography": "^100.0.0-3"
     },
     "description": "A component, integrated with FT authentication and user data services, to add a comment stream or comment count to content.",
     "publishConfig": {
