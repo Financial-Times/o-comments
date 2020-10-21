@@ -1,5 +1,5 @@
 {
-    "name": "o-comments",
+    "name": "@financial-times/o-comments",
     "main": "main.js",
     "devDependencies": {
         "eslint": "^7.8.1",
