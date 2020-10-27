@@ -2,7 +2,15 @@
     "name": "@financial-times/o-comments",
     "version": "100.0.0-7",
     "description": "A component, integrated with FT authentication and user data services, to add a comment stream or comment count to content.",
-    "browser": "main.js",
+    "license": "MIT",
+    "type": "module",
+    "exports": {
+        ".": {
+            "browser": "./main.js"
+        }
+    },
+    "browser": "./main.js",
+    "types": "types",
     "dependencies": {},
     "devDependencies": {
         "eslint": "^7.8.1",
