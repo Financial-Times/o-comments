@@ -1,6 +1,6 @@
 {
   "name": "@financial-times/o-comments",
-  "version": "100.0.0-11",
+  "version": "100.0.0-12",
   "description": "A component, integrated with FT authentication and user data services, to add a comment stream or comment count to content.",
   "keywords": [],
   "homepage": "https://github.com/Financial-Times/o-comments#readme",
@@ -31,13 +31,13 @@
     "typescript": "^4.0.5"
   },
   "peerDependencies": {
-    "@financial-times/o-buttons": "^100.0.0-11",
-    "@financial-times/o-colors": "^100.0.0-11",
-    "@financial-times/o-editorial-typography": "^100.0.0-11",
-    "@financial-times/o-forms": "^100.0.0-11",
-    "@financial-times/o-overlay": "^100.0.0-11",
-    "@financial-times/o-spacing": "^100.0.0-11",
-    "@financial-times/o-typography": "^100.0.0-11"
+    "@financial-times/o-buttons": "^100.0.0-12",
+    "@financial-times/o-colors": "^100.0.0-12",
+    "@financial-times/o-editorial-typography": "^100.0.0-12",
+    "@financial-times/o-forms": "^100.0.0-12",
+    "@financial-times/o-overlay": "^100.0.0-12",
+    "@financial-times/o-spacing": "^100.0.0-12",
+    "@financial-times/o-typography": "^100.0.0-12"
   },
   "publishConfig": {
     "registry": "https://origami-npm-registry-prototype.herokuapp.com"
