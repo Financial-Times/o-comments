@@ -36,8 +36,8 @@ class Comments {
 		}
 		return Object.keys(rootEl.dataset).reduce((options, key) => {
 
-			// Ignore data-o-component
-			if (key === 'oComponent') {
+			// Ignore keys which are not in the component's namespace
+			if (!key.match(/^oComments(\w)(\w+)$/)) {
 				return options;
 			}
 
