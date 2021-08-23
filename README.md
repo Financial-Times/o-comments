@@ -50,7 +50,7 @@ Coral needs a parent element id when initialising the comment stream embed scrip
 
 ### Article IDs and URLs
 
-Coral Talk can use either an ID or a URL for the story in order to try to find the underlying content to comment on. The ID is the preferred method as this allows matching of content regardless of the domain in use, and is required for initialisation as either a `data-o-comments-article-id` attribute or an `articleId` option passed to the JavaScript initialiser. The URL can also be supplied to help identify content, and should be the canonical URL of the content, given as either a `data-o-comments-article-url` attribute or a `articleUrl` option.
+Coral Talk can use either an ID or a URL for the story in order to try to find the underlying content to comment on. The ID is the preferred method as this allows matching of content regardless of the domain in use, and is required for initialisation as either a `data-o-comments-article-id` attribute or an `articleId` option passed to the JavaScript initialiser. The URL may optionally also be supplied to help identify content, and should be the canonical URL of the content, given as either a `data-o-comments-article-url` attribute or a `articleUrl` option.
 
 ### Count
 
