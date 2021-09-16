@@ -1,5 +1,11 @@
 # o-comments [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](#licence)
 
+***
+
+**This component has moved to the [Origami Component System](https://github.com/Financial-Times/origami).**
+
+***
+
 A component, integrated with FT authentication and [Coral Talk](https://coralproject.net), to add a comment stream or comment count to content.
 
 - [Usage](#usage)
